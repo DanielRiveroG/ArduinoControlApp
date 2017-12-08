@@ -4,10 +4,10 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class ProgramPanel extends JPanel {
+public class MonitorPanel extends JPanel {
 
-    public ProgramPanel() {
-        JLabel filler = new JLabel("Panel del programa");
+    public MonitorPanel() {
+        JLabel filler = new JLabel("Panel de monitorización");
         filler.setHorizontalAlignment(JLabel.CENTER);
         setLayout(new GridLayout(1, 1));
         add(filler);
