@@ -1,58 +1,64 @@
 package view;
 
+import java.awt.GridLayout;
+import java.awt.PopupMenu;
+import java.awt.Toolkit;
+import java.util.ArrayList;
+import javax.swing.*;
 import model.Instruction;
 
-public class MainFrame extends javax.swing.JFrame {
-    private Instruction ins;
-    public MainFrame(Instruction ins) {
-        this.ins = ins;
+public class MainFrame extends JFrame {
+    
+    private ArrayList<Instruction> insSet;
+    
+    // Variables of user interface                     
+    private JMenuBar MenuBar;
+    private JMenu Menu1;
+    private JMenu Menu2;
+    private JTabbedPane tabbedPane;
+    // End of variables declaration     
+    
+    
+    public MainFrame(ArrayList ins) {
+        this.insSet = ins;
         initComponents();
+        this.setSize(500,300);
+        this.setTitle("Arduino Control App");
+        this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.getSize().width)/2, (Toolkit.getDefaultToolkit().getScreenSize().height - this.getSize().height)/2);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jButton1.setText("Prueba");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(173, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(160, 160, 160))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(135, 135, 135)
-                .addComponent(jButton1)
-                .addContainerGap(142, Short.MAX_VALUE))
-        );
-
+        this.setJMenuBar(initMenu());
+        this.add(initTabs());
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }  
+    
+    protected JComponent makeTextPanel(String text) {
+        JPanel panel = new JPanel(false);
+        JLabel filler = new JLabel(text);
+        filler.setHorizontalAlignment(JLabel.CENTER);
+        panel.setLayout(new GridLayout(1, 1));
+        panel.add(filler);
+        return panel;
+    }
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.out.println(ins.getName());        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private JMenuBar initMenu() {
+        MenuBar = new JMenuBar();
+        Menu1 = new JMenu("Opciones");
+        Menu2 = new JMenu("Edición");
+        MenuBar.add(Menu1);
+        MenuBar.add(Menu2);
+        return MenuBar;
+    }
 
-    /**
-     * @param args the command line arguments
-     */
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    // End of variables declaration//GEN-END:variables
+    private JTabbedPane initTabs() {
+        tabbedPane = new JTabbedPane();
+        JComponent panel1 = makeTextPanel("Panel #1");
+        JComponent panel2 = makeTextPanel("Panel #2");
+        tabbedPane.addTab("Programación",panel1);
+        tabbedPane.addTab("Monitorización",panel2);
+        return tabbedPane;
+    }
 }
