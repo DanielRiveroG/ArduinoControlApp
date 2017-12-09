@@ -11,8 +11,8 @@ public class MainFrame extends JFrame {
     private JMenu Menu1;
     private JMenu Menu2;
     private JTabbedPane tabbedPane;
-    private ProgramPanel program;
-    private MonitorPanel monitor;
+    private final ProgramPanel program;
+    private final MonitorPanel monitor;
     // End of variables declaration     
     
     public MainFrame(ProgramPanel program, MonitorPanel monitor) {
