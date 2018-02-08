@@ -5,6 +5,10 @@
  */
 package view;
 
+import java.awt.Color;
+import javax.swing.JOptionPane;
+import model.Conection;
+
 /**
  *
  * @author Daniel
@@ -383,6 +387,11 @@ public class MainFrame extends javax.swing.JFrame {
         ConectMenu.setText("Conexión");
 
         jMenuItem1.setText("Configurar conexión con hardware");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                conectionConfig(evt);
+            }
+        });
         ConectMenu.add(jMenuItem1);
 
         jMenuBar1.add(ConectMenu);
@@ -395,33 +404,19 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void conectionConfig(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conectionConfig
+        // TODO add your handling code here:
+        String port = JOptionPane.showInputDialog("Indique el puerto al que está conectado el controlador:");
+        Conection con = new Conection();
+        con.setPort(port);
+        con.initializeConection();
+        if(con.getConectionState()){
+            ConectInfoLabel.setText("Conexión establecida");
+            ConectInfoLabel.setForeground(Color.green);
+        }else{
+            JOptionPane.showMessageDialog(this, "No se pudo establecer la conexión", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        //</editor-fold>
-    }
+    }//GEN-LAST:event_conectionConfig
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddBut;
