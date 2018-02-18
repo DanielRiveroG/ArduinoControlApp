@@ -7,9 +7,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Enumeration;
-import javax.swing.JOptionPane;
 
-public class Conection {
+public class Connection {
     
     private String port;
     private OutputStream output;
@@ -19,7 +18,7 @@ public class Conection {
     private static int dataRate;
     private boolean conectionState;
     
-    public Conection() {
+    public Connection() {
         output = null;
         timeout = 2000;
         dataRate = 9600;
@@ -41,7 +40,6 @@ public class Conection {
             CommPortIdentifier currentPortID=(CommPortIdentifier) portEnum.nextElement();
             if(port.equals(currentPortID.getName())){
                 portID=currentPortID;
-                conectionState = true;
                 break;
             }
         }
@@ -52,13 +50,31 @@ public class Conection {
         
         try{
             serialPort = (SerialPort) portID.open(this.getClass().getName(), timeout);
-            
             serialPort.setSerialPortParams(dataRate, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
-            
             output = serialPort.getOutputStream();
             input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
+            conectionState = true;
+            
         } catch(Exception e){
             conectionState = false;
         }
+    }
+    
+    public void sendData(String data){
+        try{
+            output.write(data.getBytes());
+        } catch(Exception e){
+            System.exit(ERROR);
+        }
+    }
+    
+    public String receiveData(){
+        String result = "";
+        try{
+            result = input.readLine();
+        } catch(Exception e){
+            return result;
+        }
+        return result;
     }
 }

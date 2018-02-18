@@ -45,7 +45,7 @@
                 <Property name="text" type="java.lang.String" value="Configurar conexi&#xf3;n con hardware"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="conectionConfig"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="connectionConfig"/>
               </Events>
             </MenuItem>
           </SubComponents>

@@ -5,9 +5,12 @@
  */
 package view;
 
+import control.ConnectionControler;
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import model.Conection;
+import model.Connection;
 
 /**
  *
@@ -18,9 +21,10 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
-    public MainFrame() {
+    public MainFrame(ConnectionControler connectControl) {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.connectControl = connectControl;
     }
 
     /**
@@ -389,7 +393,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem1.setText("Configurar conexión con hardware");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                conectionConfig(evt);
+                connectionConfig(evt);
             }
         });
         ConectMenu.add(jMenuItem1);
@@ -404,20 +408,21 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void conectionConfig(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conectionConfig
+    private void connectionConfig(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectionConfig
         // TODO add your handling code here:
         String port = JOptionPane.showInputDialog("Indique el puerto al que está conectado el controlador:");
-        Conection con = new Conection();
-        con.setPort(port);
-        con.initializeConection();
-        if(con.getConectionState()){
-            ConectInfoLabel.setText("Conexión establecida");
-            ConectInfoLabel.setForeground(Color.green);
-        }else{
-            JOptionPane.showMessageDialog(this, "No se pudo establecer la conexión", "Error", JOptionPane.ERROR_MESSAGE);
+        try {
+            if(connectControl.establishConnection(port)){
+                ConectInfoLabel.setText("Conexión establecida");
+                ConectInfoLabel.setForeground(Color.green);
+            }else{
+                JOptionPane.showMessageDialog(this, "No se pudo establecer la conexión", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (InterruptedException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_conectionConfig
-
+    }//GEN-LAST:event_connectionConfig
+    private ConnectionControler connectControl;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddBut;
     private javax.swing.JLabel ConectInfoLabel;
