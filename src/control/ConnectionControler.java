@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 import model.Connection;
 
 public class ConnectionControler {
-    private Connection connection;
+    private final Connection connection;
     public ConnectionControler(Connection connection) {
         this.connection = connection;
     }
@@ -13,11 +13,6 @@ public class ConnectionControler {
         connection.initializeConection();
         TimeUnit.SECONDS.sleep(2);
         connection.sendData("%hl-");
-        if(connection.receiveData().equals("ok")){
-            return true;
-        }else{
-            return false;
-        }
+        return connection.receiveData().equals("ok");
     }
-    
 }

@@ -1,17 +1,15 @@
 package arduinocontrolapp;
 
 import control.ConnectionControler;
-import java.util.ArrayList;
 import model.Connection;
-import model.Instruction;
+import model.InstructionTree;
 import view.MainFrame;
 
 
 public class ArduinoControlApp {
 
     public static void main(String[] args) {
-        
-        new MainFrame(new ConnectionControler(new Connection())).setVisible(true);
+        new MainFrame(new ConnectionControler(new Connection()), new InstructionTree().getModel()).setVisible(true);
     }
-    
+ 
 }

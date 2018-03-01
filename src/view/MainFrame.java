@@ -10,7 +10,7 @@ import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import model.Connection;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -18,10 +18,10 @@ import model.Connection;
  */
 public class MainFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainFrame
-     */
-    public MainFrame(ConnectionControler connectControl) {
+
+    @SuppressWarnings("OverridableMethodCallInConstructor")
+    public MainFrame(ConnectionControler connectControl, DefaultTreeModel instModel) {
+        this.instModel = instModel;
         initComponents();
         this.setLocationRelativeTo(null);
         this.connectControl = connectControl;
@@ -98,6 +98,7 @@ public class MainFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(jScrollPane1, gridBagConstraints);
 
+        InstructionTree.setModel(instModel);
         jScrollPane2.setViewportView(InstructionTree);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -422,7 +423,8 @@ public class MainFrame extends javax.swing.JFrame {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_connectionConfig
-    private ConnectionControler connectControl;
+    private final ConnectionControler connectControl;
+    private DefaultTreeModel instModel;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddBut;
     private javax.swing.JLabel ConectInfoLabel;
