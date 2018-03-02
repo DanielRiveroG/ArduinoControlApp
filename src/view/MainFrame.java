@@ -6,6 +6,7 @@
 package view;
 
 import control.ConnectionControler;
+import control.ProgramController;
 import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,12 +23,13 @@ public class MainFrame extends javax.swing.JFrame {
 
 
     @SuppressWarnings("OverridableMethodCallInConstructor")
-    public MainFrame(ConnectionControler connectControl, DefaultTreeModel instModel) {
+    public MainFrame(ConnectionControler connectControl, DefaultTreeModel instModel, ProgramController programControl) {
         program = new DefaultListModel<>();
         this.instModel = instModel;
         initComponents();
         this.setLocationRelativeTo(null);
         this.connectControl = connectControl;
+        this.programControl = programControl;
     }
 
     @SuppressWarnings("unchecked")
@@ -130,6 +132,11 @@ public class MainFrame extends javax.swing.JFrame {
         DelBut.setFocusable(false);
         DelBut.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         DelBut.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        DelBut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DelButActionPerformed(evt);
+            }
+        });
         jToolBar2.add(DelBut);
 
         EditBut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/edit.png"))); // NOI18N
@@ -145,6 +152,11 @@ public class MainFrame extends javax.swing.JFrame {
         StartBut.setFocusable(false);
         StartBut.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         StartBut.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        StartBut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StartButActionPerformed(evt);
+            }
+        });
         jToolBar2.add(StartBut);
 
         PauseBut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pause.png"))); // NOI18N
@@ -432,20 +444,33 @@ public class MainFrame extends javax.swing.JFrame {
     private void InstTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_InstTreeValueChanged
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) InstTree.getLastSelectedPathComponent();
         try {
-            selected = (Instruction)node.getUserObject();
+            selectedTree = (Instruction)node.getUserObject();
         } catch (Exception e) {
-            selected = null;
+            selectedTree = null;
         }
     }//GEN-LAST:event_InstTreeValueChanged
 
     private void AddButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButActionPerformed
-        program.addElement(selected);
+        program.addElement(selectedTree);
     }//GEN-LAST:event_AddButActionPerformed
+
+    private void DelButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DelButActionPerformed
+        try{
+            program.remove(ProgramList.getSelectedIndex());
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Se ha de seleccionar una instrucción para poder borrar", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_DelButActionPerformed
+
+    private void StartButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButActionPerformed
+        programControl.executeProgram(program);
+    }//GEN-LAST:event_StartButActionPerformed
     
-    private  DefaultListModel<Instruction> program;
+    private DefaultListModel<Instruction> program;
     private final ConnectionControler connectControl;
+    private final ProgramController programControl;
     private final DefaultTreeModel instModel;
-    private Instruction selected;
+    private Instruction selectedTree;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddBut;
     private javax.swing.JLabel ConectInfoLabel;
