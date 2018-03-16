@@ -37,17 +37,6 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        digitalIODialog = new javax.swing.JDialog();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        buttonGroup1 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         ProgramList = new javax.swing.JList<Instruction>();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -87,77 +76,6 @@ public class MainFrame extends javax.swing.JFrame {
         ConectMenu = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         HelpMenu = new javax.swing.JMenu();
-
-        digitalIODialog.setSize(new java.awt.Dimension(350, 250));
-        digitalIODialog.getContentPane().setLayout(new java.awt.GridBagLayout());
-        digitalIODialog.setLocationRelativeTo(null);
-
-        jLabel2.setText("Seleccione el tipo de puerto:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
-        digitalIODialog.getContentPane().add(jLabel2, gridBagConstraints);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mosfet", "Optoaislado", "Relé" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
-        digitalIODialog.getContentPane().add(jComboBox1, gridBagConstraints);
-
-        jLabel1.setText("Seleccione el número:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
-        digitalIODialog.getContentPane().add(jLabel1, gridBagConstraints);
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
-        digitalIODialog.getContentPane().add(jComboBox2, gridBagConstraints);
-
-        jLabel3.setText("Estado de la Salida:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        digitalIODialog.getContentPane().add(jLabel3, gridBagConstraints);
-
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setSelected(true);
-        jRadioButton1.setText("Apagada");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        digitalIODialog.getContentPane().add(jRadioButton1, gridBagConstraints);
-
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Encendida");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        digitalIODialog.getContentPane().add(jRadioButton2, gridBagConstraints);
-
-        jButton1.setText("Aceptar");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        digitalIODialog.getContentPane().add(jButton1, gridBagConstraints);
-
-        jButton2.setText("Cancelar");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        digitalIODialog.getContentPane().add(jButton2, gridBagConstraints);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Arduino Control App");
@@ -510,15 +428,14 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void connectionConfig(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectionConfig
         // TODO add your handling code here:
-        String port = JOptionPane.showInputDialog("Indique el puerto al que está conectado el controlador:");
-        try {
-            if(connectControl.establishConnection(port)){
+        try{
+            if(connectControl.establishConnection()){
                 ConectInfoLabel.setText("Conexión establecida");
                 ConectInfoLabel.setForeground(Color.green);
             }else{
                 JOptionPane.showMessageDialog(this, "No se pudo establecer la conexión", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (InterruptedException ex) {
+        }catch (InterruptedException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_connectionConfig
@@ -535,7 +452,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void AddButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButActionPerformed
         if(selectedTree != null){
             program.addElement(selectedTree);
-            digitalIODialog.setVisible(true);
+            new DigitalIODialog().setVisible(true);
         }else{
             JOptionPane.showMessageDialog(this, "Se ha de seleccionar una instrucción para poder añadirla", "Atención", JOptionPane.WARNING_MESSAGE);
         }
@@ -589,22 +506,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem SaveItm;
     private javax.swing.JButton StartBut;
     private javax.swing.JButton StopBut;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JDialog digitalIODialog;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar.Separator jSeparator1;

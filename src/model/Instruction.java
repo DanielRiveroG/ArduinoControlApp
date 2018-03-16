@@ -4,6 +4,7 @@ package model;
 public class Instruction{
     private final String name;
     private final String command;
+    private String[] arguments;
 
     public Instruction(String name, String command) {
         this.name = name;

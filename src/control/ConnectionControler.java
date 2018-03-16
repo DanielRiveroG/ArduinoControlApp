@@ -1,6 +1,7 @@
 package control;
 
 import java.util.concurrent.TimeUnit;
+import javax.swing.JOptionPane;
 import model.Connection;
 
 public class ConnectionControler {
@@ -8,9 +9,13 @@ public class ConnectionControler {
     public ConnectionControler(Connection connection) {
         this.connection = connection;
     }
-    public boolean establishConnection(String port) throws InterruptedException{
+    public boolean establishConnection() throws InterruptedException{
+        String port = JOptionPane.showInputDialog("Indique el puerto al que está conectado el controlador:");
         connection.setPort(port);
         connection.initializeConection();
+        if(!connection.getConectionState()){
+            return false;
+        }
         TimeUnit.SECONDS.sleep(2);
         connection.sendData("%hl-");
         return connection.receiveData().equals("ok");
