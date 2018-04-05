@@ -1,111 +1,133 @@
 package view;
 
-import javax.swing.JDialog;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class DigitalIODialog extends JDialog{
 
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
+    private ButtonGroup optionsGroup;
+    private JButton acceptButton;
+    private JButton cancelButton;
+    private JSpinner portSpinner;
+    private JLabel numberLabel;
+    private JLabel stateLabel;
+    private JRadioButton offRadioButton;
+    private JRadioButton onRadioButton;
+    private int[] args;
     
     public DigitalIODialog() {
+        args = new int[2];
         initComponents();
     }
     
+    public int[] showDialog() {
+        this.setVisible(true);
+        return args;
+    }
+    
+    private void acceptButtonActionPerformed(ActionEvent evt) {
+        this.setVisible(false);
+        args[0] = (int) portSpinner.getValue();
+        if(offRadioButton.isSelected()){
+            args[1] = 0;
+        }else{
+            args[1] = 1;
+        }
+        dispose();
+    }
+    
+    private void cancelButtonActionPerformed(ActionEvent evt) {
+        this.setVisible(false);
+        args = null;
+        dispose();
+    }
+    
+    @SuppressWarnings("Convert2Lambda")
     private void initComponents(){
-        java.awt.GridBagConstraints gridBagConstraints;
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        GridBagConstraints gridBagConstraints;
+        numberLabel = new JLabel();
+        portSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 15, 1));
+        stateLabel = new JLabel();
+        offRadioButton = new JRadioButton();
+        onRadioButton = new JRadioButton();
+        acceptButton = new JButton();
+        cancelButton = new JButton();
+        optionsGroup = new ButtonGroup();
         
-        this.setSize(new java.awt.Dimension(350, 250));
-        this.getContentPane().setLayout(new java.awt.GridBagLayout());
+        this.setSize(new Dimension(250, 200));
+        this.setTitle("Argumentos");
+        this.getContentPane().setLayout(new GridBagLayout());
         this.setLocationRelativeTo(null);
+        this.setModal(true);
 
-        jLabel2.setText("Seleccione el tipo de puerto:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        numberLabel.setText("Seleccione el puerto:");
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
-        this.getContentPane().add(jLabel2, gridBagConstraints);
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.insets = new Insets(5, 5, 5, 0);
+        this.getContentPane().add(numberLabel, gridBagConstraints);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mosfet", "Optoaislado", "Relé" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        JFormattedTextField tf = ((JSpinner.DefaultEditor) portSpinner.getEditor()).getTextField();
+        tf.setEditable(false);
+        tf.setBackground(Color.white);
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
-        this.getContentPane().add(jComboBox1, gridBagConstraints);
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.insets = new Insets(5, 5, 5, 0);
+        this.getContentPane().add(portSpinner, gridBagConstraints);
 
-        jLabel1.setText("Seleccione el número:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
-        this.getContentPane().add(jLabel1, gridBagConstraints);
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
-        this.getContentPane().add(jComboBox2, gridBagConstraints);
-
-        jLabel3.setText("Estado de la Salida:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        stateLabel.setText("Estado de la Salida:");
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        this.getContentPane().add(jLabel3, gridBagConstraints);
+        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
+        this.getContentPane().add(stateLabel, gridBagConstraints);
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setSelected(true);
-        jRadioButton1.setText("Apagada");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        optionsGroup.add(offRadioButton);
+        offRadioButton.setSelected(true);
+        offRadioButton.setText("Apagada");
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        this.getContentPane().add(jRadioButton1, gridBagConstraints);
+        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
+        this.getContentPane().add(offRadioButton, gridBagConstraints);
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Encendida");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        optionsGroup.add(onRadioButton);
+        onRadioButton.setText("Encendida");
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        this.getContentPane().add(jRadioButton2, gridBagConstraints);
+        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
+        this.getContentPane().add(onRadioButton, gridBagConstraints);
 
-        jButton1.setText("Aceptar");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        acceptButton.setText("Aceptar");
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        this.getContentPane().add(jButton1, gridBagConstraints);
+        gridBagConstraints.insets = new Insets(5, 0, 5, 5);
+        this.getContentPane().add(acceptButton, gridBagConstraints);
+        acceptButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                acceptButtonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Cancelar");
-        gridBagConstraints = new java.awt.GridBagConstraints();
+        cancelButton.setText("Cancelar");
+        gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        this.getContentPane().add(jButton2, gridBagConstraints);
+        gridBagConstraints.insets = new Insets(5, 5, 5, 0);
+        this.getContentPane().add(cancelButton, gridBagConstraints);
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
     }
 }

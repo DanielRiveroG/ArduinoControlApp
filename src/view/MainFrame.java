@@ -8,6 +8,7 @@ package view;
 import control.ConnectionControler;
 import control.ProgramController;
 import java.awt.Color;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -452,7 +453,8 @@ public class MainFrame extends javax.swing.JFrame {
     private void AddButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButActionPerformed
         if(selectedTree != null){
             program.addElement(selectedTree);
-            new DigitalIODialog().setVisible(true);
+            int[] result = new DigitalIODialog().showDialog();
+            System.out.println(Arrays.toString(result));
         }else{
             JOptionPane.showMessageDialog(this, "Se ha de seleccionar una instrucción para poder añadirla", "Atención", JOptionPane.WARNING_MESSAGE);
         }
