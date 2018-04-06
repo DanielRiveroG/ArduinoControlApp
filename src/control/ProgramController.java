@@ -4,6 +4,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import model.Connection;
+import model.Instruction;
+import model.Program;
+import view.DigitalIODialog;
 
 public class ProgramController {
     private final Connection connection;
@@ -16,6 +19,14 @@ public class ProgramController {
         new Thread(new ExecThread()).start();
     }
     
+    public void addInstruction(Instruction ins, Program prog){
+        int[] result = new DigitalIODialog().showDialog();
+        prog.addInstruction(new Instruction(ins.getName(),ins.getCommand(),ins.getInstructionType(),result));
+    }
+    
+    public void deleteInstruction(int pos, Program prog){
+        prog.deleteInstruction(pos);
+    }
     class ExecThread implements Runnable{
 
         @Override

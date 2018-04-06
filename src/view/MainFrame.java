@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import model.Instruction;
+import model.Program;
 /**
  *
  * @author Daniel
@@ -24,8 +25,8 @@ public class MainFrame extends javax.swing.JFrame {
 
 
     @SuppressWarnings("OverridableMethodCallInConstructor")
-    public MainFrame(ConnectionControler connectControl, DefaultTreeModel instModel, ProgramController programControl) {
-        program = new DefaultListModel<>();
+    public MainFrame(ConnectionControler connectControl, DefaultTreeModel instModel, ProgramController programControl, Program program) {
+        this.program = program;
         this.instModel = instModel;
         initComponents();
         this.setLocationRelativeTo(null);
@@ -83,7 +84,7 @@ public class MainFrame extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(600, 500));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        ProgramList.setModel(program);
+        ProgramList.setModel(program.getInstructions());
         jScrollPane1.setViewportView(ProgramList);
         ProgramList.getAccessibleContext().setAccessibleName("");
 
@@ -452,9 +453,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void AddButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButActionPerformed
         if(selectedTree != null){
-            program.addElement(selectedTree);
-            int[] result = new DigitalIODialog().showDialog();
-            System.out.println(Arrays.toString(result));
+            programControl.addInstruction(selectedTree, program);
         }else{
             JOptionPane.showMessageDialog(this, "Se ha de seleccionar una instrucción para poder añadirla", "Atención", JOptionPane.WARNING_MESSAGE);
         }
@@ -462,17 +461,17 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void DelButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DelButActionPerformed
         try{
-            program.remove(ProgramList.getSelectedIndex());
+            programControl.deleteInstruction(ProgramList.getSelectedIndex(),program);
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Se ha de seleccionar una instrucción para poder borrar", "Atención", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_DelButActionPerformed
 
     private void StartButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButActionPerformed
-        programControl.executeProgram(program);
+        programControl.executeProgram(program.getInstructions());
     }//GEN-LAST:event_StartButActionPerformed
     
-    private DefaultListModel<Instruction> program;
+    private Program program;
     private final ConnectionControler connectControl;
     private final ProgramController programControl;
     private final DefaultTreeModel instModel;

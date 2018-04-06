@@ -15,9 +15,9 @@ public class InstructionTree {
         DefaultMutableTreeNode digitalIO = new DefaultMutableTreeNode("Entrada/Salida digital");
 	model = new DefaultTreeModel(root);
         model.insertNodeInto(digitalIO, root, 0);
-	model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Activar Salida","%WB")), digitalIO, 0);
-        model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Desactivar Salida","%WB")), digitalIO, 1);
-        model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Leer Entrada","%WB")), digitalIO, 2);
+	model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Activar Salida","%WB",1)), digitalIO, 0);
+        model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Desactivar Salida","%WB",1)), digitalIO, 1);
+        model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Leer Entrada","%WB",1)), digitalIO, 2);
     }
 
     public DefaultTreeModel getModel() {
