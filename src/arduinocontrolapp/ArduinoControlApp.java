@@ -12,7 +12,8 @@ public class ArduinoControlApp {
 
     public static void main(String[] args) {
         Connection connection = new Connection();
-        new MainFrame(new ConnectionControler(connection), new InstructionTree().getModel(), new ProgramController(connection), new Program()).setVisible(true);
+        Program program = new Program(connection);
+        new MainFrame(new ConnectionControler(connection), new InstructionTree().getModel(), new ProgramController(program), program).setVisible(true);
     }
  
 }

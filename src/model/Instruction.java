@@ -46,10 +46,17 @@ public class Instruction{
         if(arguments == null){
             return name;
         }
-        String result = name;
-        for (int i = 0; i < arguments.length; i++) {
-            result += "-" + arguments[i];
-            
+        String result = "";
+        switch(instructionType){
+            case 0:
+                result = name + " - Pin " + arguments[0] + " - Valor " + arguments[1];
+                break;
+            case 1:
+                result = name + " - Valor " + arguments[0];
+                break;
+            case 2:
+                result = name + " - Valor " + arguments[0];
+                break;
         }
         return result;
     }

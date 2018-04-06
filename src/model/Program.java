@@ -4,8 +4,10 @@ import javax.swing.DefaultListModel;
 
 public class Program {
     private final DefaultListModel<Instruction> instructions;
+    private final Connection connection;
 
-    public Program() {
+    public Program(Connection connection) {
+        this.connection = connection;
         instructions = new DefaultListModel<>();
     }
     

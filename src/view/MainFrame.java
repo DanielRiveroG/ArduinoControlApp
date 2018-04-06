@@ -8,10 +8,8 @@ package view;
 import control.ConnectionControler;
 import control.ProgramController;
 import java.awt.Color;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -453,7 +451,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void AddButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButActionPerformed
         if(selectedTree != null){
-            programControl.addInstruction(selectedTree, program);
+            programControl.addInstruction(selectedTree);
         }else{
             JOptionPane.showMessageDialog(this, "Se ha de seleccionar una instrucción para poder añadirla", "Atención", JOptionPane.WARNING_MESSAGE);
         }
@@ -461,7 +459,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void DelButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DelButActionPerformed
         try{
-            programControl.deleteInstruction(ProgramList.getSelectedIndex(),program);
+            programControl.deleteInstruction(ProgramList.getSelectedIndex());
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Se ha de seleccionar una instrucción para poder borrar", "Atención", JOptionPane.WARNING_MESSAGE);
         }
@@ -471,7 +469,7 @@ public class MainFrame extends javax.swing.JFrame {
         programControl.executeProgram(program.getInstructions());
     }//GEN-LAST:event_StartButActionPerformed
     
-    private Program program;
+    private final Program program;
     private final ConnectionControler connectControl;
     private final ProgramController programControl;
     private final DefaultTreeModel instModel;

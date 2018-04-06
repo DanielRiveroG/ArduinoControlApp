@@ -1,31 +1,46 @@
 package control;
 
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import model.Connection;
 import model.Instruction;
 import model.Program;
-import view.DigitalIODialog;
+import view.DigitalIODialog0;
+import view.DigitalIODialog1;
 
 public class ProgramController {
-    private final Connection connection;
+    private final Program program;
 
-    public ProgramController(Connection connection) {
-        this.connection = connection;
+    public ProgramController(Program program) {
+        this.program = program;
     }
     
     public void executeProgram(DefaultListModel program){
         new Thread(new ExecThread()).start();
     }
     
-    public void addInstruction(Instruction ins, Program prog){
-        int[] result = new DigitalIODialog().showDialog();
-        prog.addInstruction(new Instruction(ins.getName(),ins.getCommand(),ins.getInstructionType(),result));
+    public void addInstruction(Instruction ins){
+        int type = ins.getInstructionType();
+        int[] result = null;
+        switch(type){
+            case 0:
+                result = new DigitalIODialog0().showDialog();
+                break;
+            case 1:
+                result = new DigitalIODialog1(254).showDialog();
+                break;
+            case 2:
+                result = new DigitalIODialog1(65534).showDialog();
+                break;
+        }
+        if(result != null){
+            program.addInstruction(new Instruction(ins.getName(),ins.getCommand(),ins.getInstructionType(),result));
+        }
     }
     
-    public void deleteInstruction(int pos, Program prog){
-        prog.deleteInstruction(pos);
+    public void deleteInstruction(int pos){
+        program.deleteInstruction(pos);
     }
     class ExecThread implements Runnable{
 
