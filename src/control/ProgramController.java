@@ -1,6 +1,5 @@
 package control;
 
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -8,6 +7,7 @@ import model.Instruction;
 import model.Program;
 import view.DigitalIODialog0;
 import view.DigitalIODialog1;
+import view.DigitalIODialog2;
 
 public class ProgramController {
     private final Program program;
@@ -32,6 +32,9 @@ public class ProgramController {
                 break;
             case 2:
                 result = new DigitalIODialog1(65534).showDialog();
+                break;
+            case 3:
+                result = new DigitalIODialog2().showDialog();
                 break;
         }
         if(result != null){

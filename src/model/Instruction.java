@@ -40,7 +40,9 @@ public class Instruction{
         this.arguments = arguments;
     }
     
-
+    public void getExecuteCommand(){
+        
+    }
     @Override
     public String toString() {
         if(arguments == null){
@@ -56,6 +58,9 @@ public class Instruction{
                 break;
             case 2:
                 result = name + " - Valor " + arguments[0];
+                break;
+            case 3:
+                result = name + " - Pin " + arguments[0];
                 break;
         }
         return result;
