@@ -16,8 +16,8 @@ public class ProgramController {
         this.program = program;
     }
     
-    public void executeProgram(DefaultListModel program){
-        new Thread(new ExecThread()).start();
+    public void executeProgram(){
+        this.program.run();
     }
     
     public void addInstruction(Instruction ins){
@@ -44,21 +44,6 @@ public class ProgramController {
     
     public void deleteInstruction(int pos){
         program.deleteInstruction(pos);
-    }
-    class ExecThread implements Runnable{
-
-        @Override
-        public void run() {
-            for (int i = 0; i < 10; i++) {
-                System.out.println("Iteración: " + i);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(ProgramController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    
     }
     
 }

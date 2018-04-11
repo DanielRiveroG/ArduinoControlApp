@@ -40,8 +40,14 @@ public class Instruction{
         this.arguments = arguments;
     }
     
-    public void getExecuteCommand(){
-        
+    public String getExecuteCommand(){
+        String result = command;
+        for (int i = 0; i < arguments.length; i++) {
+            result += " " + arguments[i];
+            
+        }
+        result += "\n";
+        return result;
     }
     @Override
     public String toString() {

@@ -1,8 +1,5 @@
 package model;
 
-import control.ProgramController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 public class Program {
@@ -24,17 +21,16 @@ public class Program {
         return instructions;
     }
     public void run(){
+        new Thread(new ExecThread()).start();
     }
     class ExecThread implements Runnable{
-
         @Override
         public void run() {
-            for (int i = 0; i < 10; i++) {
-                System.out.println("Iteración: " + i);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(ProgramController.class.getName()).log(Level.SEVERE, null, ex);
+            for (Object inst : instructions.toArray()) {
+                Instruction test = (Instruction)inst;
+                connection.sendData(test.getExecuteCommand());
+                if(!connection.receiveData().equals("!AK")){
+                    break;
                 }
             }
         }

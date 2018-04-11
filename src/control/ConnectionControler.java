@@ -17,7 +17,7 @@ public class ConnectionControler {
             return false;
         }
         TimeUnit.SECONDS.sleep(2);
-        connection.sendData("%hl-");
-        return connection.receiveData().equals("ok");
+        connection.sendData("$HL\n");
+        return connection.receiveData().equals("!AK");
     }
 }

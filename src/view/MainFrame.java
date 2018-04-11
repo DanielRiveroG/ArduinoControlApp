@@ -466,7 +466,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_DelButActionPerformed
 
     private void StartButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButActionPerformed
-        programControl.executeProgram(program.getInstructions());
+        programControl.executeProgram();
     }//GEN-LAST:event_StartButActionPerformed
     
     private final Program program;
