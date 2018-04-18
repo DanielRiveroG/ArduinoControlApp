@@ -21,6 +21,8 @@ public class InstructionTree {
         model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Salida Binaria Palabra","$OW",2)), digitalIO, 3);
         model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Conmutar Salida","$OT",3)), digitalIO, 4);
         model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Pulso Binario","$OP",4)), digitalIO, 5);
+        model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Entrada Binaria Bit","$IB",0)), digitalIO, 0);
+        model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Entrada Binaria Byte Bajo","$IL",1)), digitalIO, 1);
     }
 
     public DefaultTreeModel getModel() {
