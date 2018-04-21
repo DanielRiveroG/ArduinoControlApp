@@ -402,6 +402,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         SaveItm.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         SaveItm.setText("Guardar");
+        SaveItm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveItmActionPerformed(evt);
+            }
+        });
         FileMenu.add(SaveItm);
 
         jMenuBar1.add(FileMenu);
@@ -468,6 +473,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void StartButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButActionPerformed
         programControl.executeProgram();
     }//GEN-LAST:event_StartButActionPerformed
+
+    private void SaveItmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveItmActionPerformed
+        programControl.saveProgram();
+    }//GEN-LAST:event_SaveItmActionPerformed
     
     private final Program program;
     private final ConnectionControler connectControl;

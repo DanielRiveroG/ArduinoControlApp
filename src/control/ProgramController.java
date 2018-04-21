@@ -1,8 +1,7 @@
 package control;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
+import java.io.File;
+import javax.swing.JFileChooser;
 import model.Instruction;
 import model.Program;
 import view.DigitalIODialog0;
@@ -44,6 +43,16 @@ public class ProgramController {
     
     public void deleteInstruction(int pos){
         program.deleteInstruction(pos);
+    }
+
+    public void saveProgram() {
+        JFileChooser fileChooser = new JFileChooser();
+        int selection = fileChooser.showSaveDialog(null);
+        if (selection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+            program.save(fileToSave);
+        }
     }
     
 }

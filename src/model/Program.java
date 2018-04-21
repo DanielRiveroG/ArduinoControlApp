@@ -1,5 +1,12 @@
 package model;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.awt.Window.Type;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -11,6 +18,19 @@ public class Program {
         this.connection = connection;
         instructions = new DefaultListModel<>();
     }
+    
+    public void save(File file) throws IOException{
+        String json = new Gson().toJson(instructions);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        writer.write(json, 0, json.length());
+        System.out.println(json);
+        writer.close();
+    }
+    
+    /*public void load(){
+        java.lang.reflect.Type listType = new TypeToken<DefaultListModel<Instruction>>(){}.getType();
+        DefaultListModel <Instruction> hola = new Gson().fromJson(json, listType);
+    }*/
     
     public void addInstruction(Instruction ins){
         instructions.addElement(ins);
