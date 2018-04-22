@@ -2,16 +2,18 @@ package model;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import java.awt.Window.Type;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 public class Program {
-    private final DefaultListModel<Instruction> instructions;
+    private DefaultListModel<Instruction> instructions;
     private final Connection connection;
 
     public Program(Connection connection) {
@@ -21,16 +23,30 @@ public class Program {
     
     public void save(File file) throws IOException{
         String json = new Gson().toJson(instructions);
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.write(json, 0, json.length());
-        System.out.println(json);
-        writer.close();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write(json, 0, json.length());
+        }
     }
     
-    /*public void load(){
+    public void load(File file) throws FileNotFoundException, IOException{
         java.lang.reflect.Type listType = new TypeToken<DefaultListModel<Instruction>>(){}.getType();
-        DefaultListModel <Instruction> hola = new Gson().fromJson(json, listType);
-    }*/
+        String json;
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            json = reader.readLine();
+        }
+         DefaultListModel<Instruction> loaded = new Gson().fromJson(json, listType);
+         for (Object inst : loaded.toArray()) {
+             Instruction aux = (Instruction)inst;
+             addInstruction(aux);
+         }
+    }
+    
+    public void clear(){
+        int size = instructions.getSize();
+        for (int i = 0; i < size; i++) {
+            deleteInstruction(0);
+        }
+    }
     
     public void addInstruction(Instruction ins){
         instructions.addElement(ins);

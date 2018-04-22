@@ -1,6 +1,7 @@
 package control;
 
 import java.io.File;
+import java.io.IOException;
 import javax.swing.JFileChooser;
 import model.Instruction;
 import model.Program;
@@ -44,15 +45,26 @@ public class ProgramController {
     public void deleteInstruction(int pos){
         program.deleteInstruction(pos);
     }
+    
+    public void clearProgram(){
+        program.clear();
+    }
 
-    public void saveProgram() {
+    public void saveProgram() throws IOException {
         JFileChooser fileChooser = new JFileChooser();
         int selection = fileChooser.showSaveDialog(null);
         if (selection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
-            System.out.println("Save as file: " + fileToSave.getAbsolutePath());
             program.save(fileToSave);
         }
     }
     
+    public void loadProgram() throws IOException{
+        JFileChooser fileChooser = new JFileChooser();
+        int selection = fileChooser.showOpenDialog(null);
+        if (selection == JFileChooser.APPROVE_OPTION) {
+            File fileToLoad = fileChooser.getSelectedFile();
+            program.load(fileToLoad);
+        }
+    }
 }

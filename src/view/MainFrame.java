@@ -8,6 +8,7 @@ package view;
 import control.ConnectionControler;
 import control.ProgramController;
 import java.awt.Color;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -45,6 +46,7 @@ public class MainFrame extends javax.swing.JFrame {
         AddBut = new javax.swing.JButton();
         DelBut = new javax.swing.JButton();
         EditBut = new javax.swing.JButton();
+        ClearBut = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         StartBut = new javax.swing.JButton();
         PauseBut = new javax.swing.JButton();
@@ -145,6 +147,18 @@ public class MainFrame extends javax.swing.JFrame {
         EditBut.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         EditBut.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar2.add(EditBut);
+
+        ClearBut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clear.png"))); // NOI18N
+        ClearBut.setToolTipText("Borrar programa completo");
+        ClearBut.setFocusable(false);
+        ClearBut.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ClearBut.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        ClearBut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClearButActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(ClearBut);
         jToolBar2.add(jSeparator1);
 
         StartBut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/play.png"))); // NOI18N
@@ -398,6 +412,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         OpenItm.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         OpenItm.setText("Abrir");
+        OpenItm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OpenItmActionPerformed(evt);
+            }
+        });
         FileMenu.add(OpenItm);
 
         SaveItm.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
@@ -475,8 +494,24 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_StartButActionPerformed
 
     private void SaveItmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveItmActionPerformed
-        programControl.saveProgram();
+        try {
+            programControl.saveProgram();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "No se ha podido guardar el fichero", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_SaveItmActionPerformed
+
+    private void OpenItmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenItmActionPerformed
+        try {
+            programControl.loadProgram();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "No se ha podido abrir el fichero", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_OpenItmActionPerformed
+
+    private void ClearButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearButActionPerformed
+        programControl.clearProgram();
+    }//GEN-LAST:event_ClearButActionPerformed
     
     private final Program program;
     private final ConnectionControler connectControl;
@@ -485,6 +520,7 @@ public class MainFrame extends javax.swing.JFrame {
     private Instruction selectedTree;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddBut;
+    private javax.swing.JButton ClearBut;
     private javax.swing.JLabel ConectInfoLabel;
     private javax.swing.JLabel ConectLabel;
     private javax.swing.JMenu ConectMenu;
