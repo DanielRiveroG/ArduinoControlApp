@@ -67,11 +67,18 @@ public class Program {
     class ExecThread implements Runnable{
         @Override
         public void run() {
+            System.out.println("Inicio del programa");
             String response;
-            for (Object inst : instructions.toArray()) {
+            for (int i = 0; i < instructions.size(); i++) {
+                if(instructions.get(i).getInstructionType() == 5) continue;
+                if(instructions.get(i).getInstructionType() == 7){
+                    System.out.println("Salto");
+                    i = findLabel(instructions.get(i));
+                    if(i == -1) break;
+                    continue;
+                }
                 response = "";
-                Instruction test = (Instruction)inst;
-                connection.sendData(test.getExecuteCommand());
+                connection.sendData(instructions.get(i).getExecuteCommand());
                 response = connection.receiveData();
                 while(response.equals("")){
                     response = connection.receiveData();
@@ -81,6 +88,19 @@ public class Program {
                     break;
                 }
             }
+            System.out.println("Fin del programa");
+        }
+        
+        private int findLabel(Instruction jump){
+            int res = 0;
+            for (Object inst : instructions.toArray()) {
+                Instruction test = (Instruction)inst;
+                if(test.getInstructionType() == 5 && test.getLabel().equals(jump.getLabel())){
+                    return res;
+                }
+                res++;
+            }
+            return -1;
         }
     
     }

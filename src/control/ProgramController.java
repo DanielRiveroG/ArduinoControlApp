@@ -8,6 +8,7 @@ import model.Program;
 import view.DigitalIODialog0;
 import view.DigitalIODialog1;
 import view.DigitalIODialog2;
+import view.LabelDialog;
 
 public class ProgramController {
     private final Program program;
@@ -23,6 +24,7 @@ public class ProgramController {
     public void addInstruction(Instruction ins){
         int type = ins.getInstructionType();
         int[] result = null;
+        String label = null;
         switch(type){
             case 0:
                 result = new DigitalIODialog0().showDialog();
@@ -36,6 +38,20 @@ public class ProgramController {
             case 3:
                 result = new DigitalIODialog2().showDialog();
                 break;
+            case 5:
+                label = new LabelDialog().showDialog();
+                break;
+            case 6:
+                result = new DigitalIODialog1(100000).showDialog();
+                break;
+            case 7:
+                label = new LabelDialog().showDialog();
+                break;
+        }
+        if(label != null){
+            Instruction insLabel = new Instruction(ins.getName(), ins.getCommand(), ins.getInstructionType());
+            insLabel.setLabel(label);
+            program.addInstruction(insLabel);
         }
         if(result != null){
             program.addInstruction(new Instruction(ins.getName(),ins.getCommand(),ins.getInstructionType(),result));
