@@ -9,6 +9,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -70,22 +73,40 @@ public class Program {
             System.out.println("Inicio del programa");
             String response;
             for (int i = 0; i < instructions.size(); i++) {
-                if(instructions.get(i).getInstructionType() == 5) continue;
-                if(instructions.get(i).getInstructionType() == 7){
-                    System.out.println("Salto");
-                    i = findLabel(instructions.get(i));
-                    if(i == -1) break;
-                    continue;
-                }
-                response = "";
-                connection.sendData(instructions.get(i).getExecuteCommand());
-                response = connection.receiveData();
-                while(response.equals("")){
+                Instruction current = instructions.get(i);
+                
+                if(current.getCommand().equals("$XX")){
+                    switch(current.getInstructionType()){
+                        case 5:
+                            break;
+                        case 6:
+                            int[] args = current.getArguments();
+                            try {
+                                TimeUnit.MILLISECONDS.sleep(args[0]);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(Program.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            break;
+                        case 7:
+                            i = findLabel(instructions.get(i));
+                            if(i == -1){
+                                JOptionPane.showMessageDialog(null, "Error en el salto, ejecución abortada", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                            break;
+                    }
+     
+                }else{
+                    response = "";
+                    connection.sendData(instructions.get(i).getExecuteCommand());
                     response = connection.receiveData();
-                }
-                if(!response.equals("!AK")){
-                    JOptionPane.showMessageDialog(null, "Ejecución Abortada", "Error", JOptionPane.ERROR_MESSAGE);
-                    break;
+                    while(response.equals("")){
+                        response = connection.receiveData();
+                    }
+                    if(!response.equals("!AK")){
+                        JOptionPane.showMessageDialog(null, "Ejecución Abortada", "Error", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    }
                 }
             }
             System.out.println("Fin del programa");
