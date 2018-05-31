@@ -4,6 +4,7 @@ import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import static java.awt.image.ImageObserver.ERROR;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Enumeration;
@@ -58,6 +59,12 @@ public class Connection {
         } catch(Exception e){
             conectionState = false;
         }
+    }
+    
+    public void close() throws IOException{
+        this.input.close();
+        this.output.close();
+        this.conectionState = false;
     }
     
     public void sendData(String data){

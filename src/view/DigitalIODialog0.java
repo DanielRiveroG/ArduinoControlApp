@@ -14,25 +14,25 @@ public class DigitalIODialog0 extends JDialog{
     private JLabel stateLabel;
     private JRadioButton offRadioButton;
     private JRadioButton onRadioButton;
-    private int[] args;
+    private String[] args;
     
     public DigitalIODialog0() {
-        args = new int[2];
+        args = new String[2];
         initComponents();
     }
     
-    public int[] showDialog() {
+    public String[] showDialog() {
         this.setVisible(true);
         return args;
     }
     
     private void acceptButtonActionPerformed(ActionEvent evt) {
         this.setVisible(false);
-        args[0] = (int) portSpinner.getValue();
+        args[0] = portSpinner.getValue().toString();
         if(offRadioButton.isSelected()){
-            args[1] = 0;
+            args[1] = "0";
         }else{
-            args[1] = 1;
+            args[1] = "1";
         }
         dispose();
     }

@@ -5,7 +5,7 @@ public class Instruction{
     private final String name;
     private final String command;
     private final int instructionType;
-    private int[] arguments;
+    private String[] arguments;
     private String label;
 
     public Instruction(String name, String command, int instructionType) {
@@ -14,7 +14,7 @@ public class Instruction{
         this.instructionType = instructionType;
     }
 
-    public Instruction(String name, String command, int instructionType, int[] arguments) {
+    public Instruction(String name, String command, int instructionType, String[] arguments) {
         this.name = name;
         this.command = command;
         this.instructionType = instructionType;
@@ -33,11 +33,11 @@ public class Instruction{
         return instructionType;
     }
 
-    public int[] getArguments() {
+    public String[] getArguments() {
         return arguments;
     }
 
-    public void setArguments(int[] arguments) {
+    public void setArguments(String[] arguments) {
         this.arguments = arguments;
     }
     
@@ -87,6 +87,9 @@ public class Instruction{
                 break;
             case 7:
                 result = ">>" + name + " a " + label;
+                break;
+            case 9:
+                result = (arguments[1].equals("0"))? ">> Variable booleana " + arguments[0] + " = " + arguments[2]:">> Variable booleana " + arguments[0] + " = Pin digital " + arguments[2];
         }
         return result;
     }

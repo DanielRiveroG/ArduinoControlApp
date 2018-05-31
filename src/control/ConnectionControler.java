@@ -1,5 +1,6 @@
 package control;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
 import model.Connection;
@@ -19,5 +20,10 @@ public class ConnectionControler {
         TimeUnit.SECONDS.sleep(2);
         connection.sendData("$HL\n");
         return connection.receiveData().equals("!AK");
+    }
+
+    public boolean closeConnection() throws IOException {
+        connection.close();
+        return this.connection.getConectionState();
     }
 }

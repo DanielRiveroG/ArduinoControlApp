@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -19,23 +17,23 @@ public class DigitalIODialog1 extends JDialog{
     private JButton cancelButton;
     private JSpinner portSpinner;
     private JLabel numberLabel;
-    private int[] args;
+    private String[] args;
     private final int maxValue;
     
     public DigitalIODialog1(int maxValue) {
         this.maxValue = maxValue;
-        args = new int[1];
+        args = new String[1];
         initComponents();
     }
     
-    public int[] showDialog() {
+    public String[] showDialog() {
         this.setVisible(true);
         return args;
     }
     
     private void acceptButtonActionPerformed(ActionEvent evt) {
         this.setVisible(false);
-        args[0] = (int) portSpinner.getValue();
+        args[0] = portSpinner.getValue().toString();
         dispose();
     }
     

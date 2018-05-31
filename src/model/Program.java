@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +20,9 @@ import javax.swing.JOptionPane;
 public class Program {
     private DefaultListModel<Instruction> instructions;
     private final Connection connection;
+    private Map<String, Boolean> dreg = new HashMap<String, Boolean>();
+    private Map<String, Integer> ireg = new HashMap<String, Integer>();
+    private Map<String, Double> rreg = new HashMap<String, Double>();
 
     public Program(Connection connection) {
         this.connection = connection;
@@ -80,9 +85,9 @@ public class Program {
                         case 5:
                             break;
                         case 6:
-                            int[] args = current.getArguments();
+                            String[] args = current.getArguments();
                             try {
-                                TimeUnit.MILLISECONDS.sleep(args[0]);
+                                TimeUnit.MILLISECONDS.sleep(Integer.parseInt(args[0]));
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(Program.class.getName()).log(Level.SEVERE, null, ex);
                             }

@@ -9,6 +9,7 @@ import view.DigitalIODialog0;
 import view.DigitalIODialog1;
 import view.DigitalIODialog2;
 import view.LabelDialog;
+import view.VariableDialog;
 
 public class ProgramController {
     private final Program program;
@@ -23,7 +24,8 @@ public class ProgramController {
     
     public void addInstruction(Instruction ins){
         int type = ins.getInstructionType();
-        int[] result = null;
+        //int[] result = null;
+        String[] result = null;
         String label = null;
         switch(type){
             case 0:
@@ -47,6 +49,10 @@ public class ProgramController {
             case 7:
                 label = new LabelDialog().showDialog();
                 break;
+            case 8:
+                break;
+            case 9:
+                result = new VariableDialog().showDialog();
         }
         if(label != null){
             Instruction insLabel = new Instruction(ins.getName(), ins.getCommand(), ins.getInstructionType());

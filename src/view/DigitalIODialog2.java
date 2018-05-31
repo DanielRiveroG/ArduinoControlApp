@@ -19,21 +19,21 @@ public class DigitalIODialog2 extends JDialog{
     private JButton cancelButton;
     private JSpinner portSpinner;
     private JLabel numberLabel;
-    private int[] args;
+    private String[] args;
     
     public DigitalIODialog2() {
-        args = new int[1];
+        args = new String[1];
         initComponents();
     }
     
-    public int[] showDialog() {
+    public String[] showDialog() {
         this.setVisible(true);
         return args;
     }
     
     private void acceptButtonActionPerformed(ActionEvent evt) {
         this.setVisible(false);
-        args[0] = (int) portSpinner.getValue();
+        args[0] = portSpinner.getValue().toString();
         dispose();
     }
     

@@ -77,6 +77,7 @@ public class MainFrame extends javax.swing.JFrame {
         SaveItm = new javax.swing.JMenuItem();
         ConectMenu = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        CloseConnectionItem = new javax.swing.JMenuItem();
         HelpMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -440,6 +441,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         ConectMenu.add(jMenuItem1);
 
+        CloseConnectionItem.setText("Cerrar conexión con hardware");
+        CloseConnectionItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CloseConnectionItemActionPerformed(evt);
+            }
+        });
+        ConectMenu.add(CloseConnectionItem);
+
         jMenuBar1.add(ConectMenu);
 
         HelpMenu.setText("Ayuda");
@@ -512,6 +521,18 @@ public class MainFrame extends javax.swing.JFrame {
     private void ClearButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearButActionPerformed
         programControl.clearProgram();
     }//GEN-LAST:event_ClearButActionPerformed
+
+    private void CloseConnectionItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseConnectionItemActionPerformed
+        try {
+            // TODO add your handling code here:
+            if(connectControl.closeConnection()){
+                ConectInfoLabel.setText("No hay hardware conectado");
+                ConectInfoLabel.setForeground(Color.red);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_CloseConnectionItemActionPerformed
     
     private final Program program;
     private final ConnectionControler connectControl;
@@ -521,6 +542,7 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddBut;
     private javax.swing.JButton ClearBut;
+    private javax.swing.JMenuItem CloseConnectionItem;
     private javax.swing.JLabel ConectInfoLabel;
     private javax.swing.JLabel ConectLabel;
     private javax.swing.JMenu ConectMenu;
