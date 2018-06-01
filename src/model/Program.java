@@ -11,16 +11,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 public class Program {
     private DefaultListModel<Instruction> instructions;
     private final Connection connection;
-    private Map<String, Boolean> dreg = new HashMap<String, Boolean>();
+    private Map<String, Integer> dreg = new HashMap<String, Integer>();
     private Map<String, Integer> ireg = new HashMap<String, Integer>();
     private Map<String, Double> rreg = new HashMap<String, Double>();
 
@@ -69,65 +66,8 @@ public class Program {
         if(!connection.getConectionState()){
             JOptionPane.showMessageDialog(null, "No se puede ejecutar el programa si no hay hardware conectado", "Atención", JOptionPane.WARNING_MESSAGE);
         }else{
-            new Thread(new ExecThread()).start();
+            new Thread(new ExecThread(instructions, connection, dreg, ireg, rreg)).start();
         }
     }
-    class ExecThread implements Runnable{
-        @Override
-        public void run() {
-            System.out.println("Inicio del programa");
-            String response;
-            for (int i = 0; i < instructions.size(); i++) {
-                Instruction current = instructions.get(i);
-                
-                if(current.getCommand().equals("$XX")){
-                    switch(current.getInstructionType()){
-                        case 5:
-                            break;
-                        case 6:
-                            String[] args = current.getArguments();
-                            try {
-                                TimeUnit.MILLISECONDS.sleep(Integer.parseInt(args[0]));
-                            } catch (InterruptedException ex) {
-                                Logger.getLogger(Program.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            break;
-                        case 7:
-                            i = findLabel(instructions.get(i));
-                            if(i == -1){
-                                JOptionPane.showMessageDialog(null, "Error en el salto, ejecución abortada", "Error", JOptionPane.ERROR_MESSAGE);
-                                return;
-                            }
-                            break;
-                    }
-     
-                }else{
-                    response = "";
-                    connection.sendData(instructions.get(i).getExecuteCommand());
-                    response = connection.receiveData();
-                    while(response.equals("")){
-                        response = connection.receiveData();
-                    }
-                    if(!response.equals("!AK")){
-                        JOptionPane.showMessageDialog(null, "Ejecución Abortada", "Error", JOptionPane.ERROR_MESSAGE);
-                        break;
-                    }
-                }
-            }
-            System.out.println("Fin del programa");
-        }
-        
-        private int findLabel(Instruction jump){
-            int res = 0;
-            for (Object inst : instructions.toArray()) {
-                Instruction test = (Instruction)inst;
-                if(test.getInstructionType() == 5 && test.getLabel().equals(jump.getLabel())){
-                    return res;
-                }
-                res++;
-            }
-            return -1;
-        }
-    
-    }
+
 }
