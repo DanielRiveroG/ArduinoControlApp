@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import model.Instruction;
 import model.Program;
+import view.ConditionalJumpDialog;
 import view.DigitalIODialog0;
 import view.DigitalIODialog1;
 import view.DigitalIODialog2;
@@ -24,7 +25,6 @@ public class ProgramController {
     
     public void addInstruction(Instruction ins){
         int type = ins.getInstructionType();
-        //int[] result = null;
         String[] result = null;
         String label = null;
         switch(type){
@@ -50,6 +50,7 @@ public class ProgramController {
                 label = new LabelDialog().showDialog();
                 break;
             case 8:
+                result = new ConditionalJumpDialog().showDialog();
                 break;
             case 9:
                 result = new VariableDialog().showDialog();

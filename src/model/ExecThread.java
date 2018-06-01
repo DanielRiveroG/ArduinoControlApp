@@ -10,11 +10,11 @@ import javax.swing.JOptionPane;
 class ExecThread implements Runnable{
     private final DefaultListModel<Instruction> instructions;
     private final Connection connection;
-    private Map<String, Integer> dreg;
+    private Map<String, Double> dreg;
     private Map<String, Integer> ireg;
     private Map<String, Double> rreg;
 
-    public ExecThread(DefaultListModel<Instruction> instructions, Connection connection, Map<String, Integer> dreg, Map<String, Integer> ireg, Map<String, Double> rreg) {
+    public ExecThread(DefaultListModel<Instruction> instructions, Connection connection, Map<String, Double> dreg, Map<String, Integer> ireg, Map<String, Double> rreg) {
         this.instructions = instructions;
         this.connection = connection;
         this.dreg = dreg;
@@ -22,16 +22,16 @@ class ExecThread implements Runnable{
         this.rreg = rreg;
     }
     
-    private int findLabel(Instruction jump){
+    private int findLabel(String label){
         int res = 0;
         for (Object inst : instructions.toArray()) {
             Instruction test = (Instruction)inst;
-            if(test.getInstructionType() == 5 && test.getLabel().equals(jump.getLabel())){
+            if(test.getInstructionType() == 5 && test.getLabel().equals(label)){
                 return res;
             }
             res++;
         }
-        return -1;
+        return -2;
     }
     
     private String sendAndReceive(Instruction inst, boolean receive){
@@ -55,6 +55,39 @@ class ExecThread implements Runnable{
         return response;
     }
     
+    private int checkJump(Instruction inst){
+        String variable = inst.getArguments()[0];
+        String label = inst.getArguments()[1];
+        String comparer = inst.getArguments()[3];
+        Double value = Double.parseDouble(inst.getArguments()[2]);
+        if(dreg.get(variable) != null){
+            if(checkCondition(dreg.get(variable),value , comparer)) return findLabel(label);
+            return -1;
+        }else if(ireg.get(variable) != null){
+            if(checkCondition(dreg.get(variable),value , comparer)) return findLabel(label);
+            return -1;
+        }else if(rreg.get(variable) != null){
+            if(checkCondition(dreg.get(variable),value , comparer)) return findLabel(label);
+            return -1;
+        }
+        return -2;
+    }
+    
+    private boolean checkCondition(Double variable, Double value, String comparer){
+        switch(comparer){
+            case "=":
+                if(Double.compare(variable, value) == 0) return true;
+                return false;
+            case ">":
+                if(Double.compare(variable, value) > 0) return true;
+                return false;
+            case "<":
+                if(Double.compare(variable, value) < 0) return true;
+                return false;
+        }
+        return false;
+    }
+    
     @Override
     public void run() {
         System.out.println("Inicio del programa");
@@ -75,20 +108,32 @@ class ExecThread implements Runnable{
                         }
                         break;
                     case 7:
-                        i = findLabel(instructions.get(i));
-                        if(i == -1){
+                        i = findLabel(instructions.get(i).getLabel());
+                        if(i == -2){
                             JOptionPane.showMessageDialog(null, "Error en el salto, ejecución abortada", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
                         break;
+                    case 8:
+                        int tmp = checkJump(current);
+                        if(tmp == -1){
+                            System.out.println("No se cumple salto");
+                            break;
+                        }else if(tmp == -2){
+                            JOptionPane.showMessageDialog(null, "Error en el salto, ejecución abortada", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }else{
+                            i = tmp;
+                        }
+                        break;
                     case 9:
                         if(current.getArguments()[1].equals("0")){
-                            dreg.put(current.getArguments()[0], Integer.parseInt(current.getArguments()[2]));
+                            dreg.put(current.getArguments()[0], Double.parseDouble(current.getArguments()[2]));
                         }else{
                             String[] arg = {current.getArguments()[2]};
                             String res = sendAndReceive(new Instruction("Entrada Binaria Bit","$IB",0,arg), true);
                             System.out.println(res);
-                            dreg.put(current.getArguments()[0], Integer.parseInt(res.substring(4, res.length())));
+                            dreg.put(current.getArguments()[0], Double.parseDouble(res.substring(4, res.length())));
                         }
                 }
 

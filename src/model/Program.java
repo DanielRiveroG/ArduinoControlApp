@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 public class Program {
     private DefaultListModel<Instruction> instructions;
     private final Connection connection;
-    private Map<String, Integer> dreg = new HashMap<String, Integer>();
+    private Map<String, Double> dreg = new HashMap<String, Double>();
     private Map<String, Integer> ireg = new HashMap<String, Integer>();
     private Map<String, Double> rreg = new HashMap<String, Double>();
 

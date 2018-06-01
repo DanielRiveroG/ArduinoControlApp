@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -38,14 +39,13 @@ public class ConditionalJumpDialog extends JDialog{
     private JRadioButton equalsRadio;
     private JRadioButton greaterRadio;
     private JRadioButton lessRadio;
-    private JLabel immediateLabel;
+    private JLabel valueLabel;
     private JLabel pinLabel;
-    private JSpinner immediateSpinner;
-    private JSpinner pinSpinner;
+    private JTextField valueField;
     private String[] result;
     
     public ConditionalJumpDialog() {
-        result = new String[3];
+        result = new String[4];
         initComponents();
     }
     
@@ -56,17 +56,26 @@ public class ConditionalJumpDialog extends JDialog{
     
     private void acceptButtonActionPerformed(ActionEvent evt) {
         this.setVisible(false);
-        if(nameField.getText().equals("")){
+        if(nameField.getText().equals("") || labelField.getText().equals("") || valueField.getText().equals("")){
+            result = null;
+            dispose();
+        }
+        try{
+            Double.parseDouble(valueField.getText());
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Debe escribir un número válido", "Atención", JOptionPane.WARNING_MESSAGE);
             result = null;
             dispose();
         }
         result[0] = nameField.getText();
-        if(greaterRadio.isSelected()){
-            result[1] = "0";
-            result[2] = immediateSpinner.getValue().toString();
+        result[1] = labelField.getText().toUpperCase();
+        result[2] = valueField.getText();
+        if(equalsRadio.isSelected()){
+            result[3] = "=";
+        }else if(greaterRadio.isSelected()){
+            result[3] = ">";
         }else{
-            result[1] = "1";
-            result[2] = pinSpinner.getValue().toString();
+            result[3] = "<";
         }
         dispose();
     }
@@ -88,10 +97,9 @@ public class ConditionalJumpDialog extends JDialog{
         equalsRadio = new JRadioButton();
         greaterRadio = new JRadioButton();
         lessRadio = new JRadioButton();
-        immediateLabel = new JLabel();
+        valueLabel = new JLabel();
         pinLabel = new JLabel();
-        immediateSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 1, 1));
-        pinSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 7, 1));
+        valueField = new JTextField();
         acceptButton = new JButton();
         cancelButton = new JButton();
         
@@ -105,14 +113,14 @@ public class ConditionalJumpDialog extends JDialog{
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.insets = new Insets(5, 5, 5, 0);
         this.getContentPane().add(nameLabel, gridBagConstraints);
 
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new Insets(5, 5, 5, 0);
         this.getContentPane().add(nameField, gridBagConstraints);
@@ -121,14 +129,14 @@ public class ConditionalJumpDialog extends JDialog{
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.insets = new Insets(5, 5, 5, 0);
         this.getContentPane().add(labelLabel, gridBagConstraints);
 
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new Insets(5, 5, 5, 0);
         this.getContentPane().add(labelField, gridBagConstraints);
@@ -138,7 +146,7 @@ public class ConditionalJumpDialog extends JDialog{
         equalsRadio.setText("=");
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.insets = new Insets(5, 0, 5, 0);
         this.getContentPane().add(equalsRadio, gridBagConstraints);
 
@@ -146,54 +154,38 @@ public class ConditionalJumpDialog extends JDialog{
         lessRadio.setText("<");
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.insets = new Insets(5, 0, 5, 0);
         this.getContentPane().add(lessRadio, gridBagConstraints);
         
         optionsGroup.add(greaterRadio);
         greaterRadio.setText(">");
         gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.insets = new Insets(5, 0, 5, 0);
         this.getContentPane().add(greaterRadio, gridBagConstraints);
         
-        immediateLabel.setText("Valor");
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
-        this.getContentPane().add(immediateLabel, gridBagConstraints);
-        
-        pinLabel.setText("Pin");
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
-        this.getContentPane().add(pinLabel, gridBagConstraints);
-        
-        JFormattedTextField tf = ((JSpinner.DefaultEditor) immediateSpinner.getEditor()).getTextField();
-        tf.setEditable(false);
-        tf.setBackground(Color.white);
+        valueLabel.setText("Escriba el valor de comparación:");
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.insets = new Insets(5, 5, 5, 0);
-        this.getContentPane().add(immediateSpinner, gridBagConstraints);
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
+        this.getContentPane().add(valueLabel, gridBagConstraints);
         
-        JFormattedTextField tf1 = ((JSpinner.DefaultEditor) pinSpinner.getEditor()).getTextField();
-        tf.setEditable(false);
-        tf.setBackground(Color.white);
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.insets = new Insets(5, 5, 5, 0);
-        this.getContentPane().add(pinSpinner, gridBagConstraints);
-
-        acceptButton.setText("Aceptar");
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new Insets(5, 5, 5, 0);
+        this.getContentPane().add(valueField, gridBagConstraints);
+        
+        acceptButton.setText("Aceptar");
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.insets = new Insets(5, 0, 5, 5);
         this.getContentPane().add(acceptButton, gridBagConstraints);
         acceptButton.addActionListener(new ActionListener() {
@@ -205,8 +197,8 @@ public class ConditionalJumpDialog extends JDialog{
 
         cancelButton.setText("Cancelar");
         gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.insets = new Insets(5, 5, 5, 0);
         this.getContentPane().add(cancelButton, gridBagConstraints);
         cancelButton.addActionListener(new ActionListener() {

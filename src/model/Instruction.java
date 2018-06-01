@@ -88,6 +88,9 @@ public class Instruction{
             case 7:
                 result = ">>" + name + " a " + label;
                 break;
+            case 8:
+                result = ">> Salto a " + arguments[1] + " si " + arguments[0] + " " + arguments[3] + " " + arguments[2];
+                break;
             case 9:
                 result = (arguments[1].equals("0"))? ">> Variable booleana " + arguments[0] + " = " + arguments[2]:">> Variable booleana " + arguments[0] + " = Pin digital " + arguments[2];
         }
