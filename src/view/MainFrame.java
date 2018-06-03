@@ -49,7 +49,6 @@ public class MainFrame extends javax.swing.JFrame {
         ClearBut = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         StartBut = new javax.swing.JButton();
-        PauseBut = new javax.swing.JButton();
         StopBut = new javax.swing.JButton();
         ProgLabel = new javax.swing.JLabel();
         InstLabel = new javax.swing.JLabel();
@@ -72,7 +71,6 @@ public class MainFrame extends javax.swing.JFrame {
         ConectLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
-        NewItm = new javax.swing.JMenuItem();
         OpenItm = new javax.swing.JMenuItem();
         SaveItm = new javax.swing.JMenuItem();
         ConectMenu = new javax.swing.JMenu();
@@ -147,6 +145,11 @@ public class MainFrame extends javax.swing.JFrame {
         EditBut.setFocusable(false);
         EditBut.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         EditBut.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        EditBut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditButActionPerformed(evt);
+            }
+        });
         jToolBar2.add(EditBut);
 
         ClearBut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clear.png"))); // NOI18N
@@ -174,18 +177,16 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jToolBar2.add(StartBut);
 
-        PauseBut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pause.png"))); // NOI18N
-        PauseBut.setToolTipText("Pausar ejecución");
-        PauseBut.setFocusable(false);
-        PauseBut.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        PauseBut.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar2.add(PauseBut);
-
         StopBut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/stop.png"))); // NOI18N
         StopBut.setToolTipText("Parar ejecución");
         StopBut.setFocusable(false);
         StopBut.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         StopBut.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        StopBut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StopButActionPerformed(evt);
+            }
+        });
         jToolBar2.add(StopBut);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -407,12 +408,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         FileMenu.setText("Archivo");
 
-        NewItm.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-        NewItm.setText("Nuevo");
-        FileMenu.add(NewItm);
-
         OpenItm.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        OpenItm.setText("Abrir");
+        OpenItm.setText("Cargar");
         OpenItm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OpenItmActionPerformed(evt);
@@ -484,7 +481,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void AddButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButActionPerformed
         if(selectedTree != null){
-            programControl.addInstruction(selectedTree);
+            try{
+                programControl.addInstruction(selectedTree, ProgramList.getSelectedIndex());
+            }catch(Exception e){
+                programControl.addInstruction(selectedTree, -1);
+            }
         }else{
             JOptionPane.showMessageDialog(this, "Se ha de seleccionar una instrucción para poder añadirla", "Atención", JOptionPane.WARNING_MESSAGE);
         }
@@ -533,6 +534,21 @@ public class MainFrame extends javax.swing.JFrame {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_CloseConnectionItemActionPerformed
+
+    private void EditButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditButActionPerformed
+        try{
+            int pos = ProgramList.getSelectedIndex();
+            if(programControl.addInstruction(ProgramList.getSelectedValue(), pos)){
+                programControl.deleteInstruction(pos+1);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Se ha de seleccionar una instrucción para poder editar", "Atención", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_EditButActionPerformed
+
+    private void StopButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StopButActionPerformed
+        programControl.stopProgram();
+    }//GEN-LAST:event_StopButActionPerformed
     
     private final Program program;
     private final ConnectionControler connectControl;
@@ -564,9 +580,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu HelpMenu;
     private javax.swing.JLabel InstLabel;
     private javax.swing.JTree InstTree;
-    private javax.swing.JMenuItem NewItm;
     private javax.swing.JMenuItem OpenItm;
-    private javax.swing.JButton PauseBut;
     private javax.swing.JLabel ProgLabel;
     private javax.swing.JList<Instruction> ProgramList;
     private javax.swing.JMenuItem SaveItm;

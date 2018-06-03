@@ -3,6 +3,7 @@ package control;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import model.Instruction;
 import model.Program;
 import view.ConditionalJumpDialog;
@@ -20,10 +21,14 @@ public class ProgramController {
     }
     
     public void executeProgram(){
-        this.program.run();
+        if(program.isRunningFlag()){
+            JOptionPane.showMessageDialog(null, "Ya hay un programa en ejecución", "Atención", JOptionPane.WARNING_MESSAGE);
+        }else{
+            this.program.run();
+        }
     }
     
-    public void addInstruction(Instruction ins){
+    public boolean addInstruction(Instruction ins, int pos){
         int type = ins.getInstructionType();
         String[] result = null;
         String label = null;
@@ -58,11 +63,14 @@ public class ProgramController {
         if(label != null){
             Instruction insLabel = new Instruction(ins.getName(), ins.getCommand(), ins.getInstructionType());
             insLabel.setLabel(label);
-            program.addInstruction(insLabel);
+            program.addInstruction(insLabel, pos);
+            return true;
         }
         if(result != null){
-            program.addInstruction(new Instruction(ins.getName(),ins.getCommand(),ins.getInstructionType(),result));
+            program.addInstruction(new Instruction(ins.getName(),ins.getCommand(),ins.getInstructionType(),result), pos);
+            return true;
         }
+        return false;
     }
     
     public void deleteInstruction(int pos){
@@ -88,6 +96,14 @@ public class ProgramController {
         if (selection == JFileChooser.APPROVE_OPTION) {
             File fileToLoad = fileChooser.getSelectedFile();
             program.load(fileToLoad);
+        }
+    }
+    
+    public void stopProgram(){
+        if(program.isRunningFlag()){
+            program.setStopFlag(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "No hay programas ejecutándose", "Atención", JOptionPane.WARNING_MESSAGE);
         }
     }
 }
