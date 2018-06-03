@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 public class LabelDialog extends JDialog{
     private JButton acceptButton;
@@ -94,5 +95,7 @@ public class LabelDialog extends JDialog{
                 cancelButtonActionPerformed(evt);
             }
         });
+        this.getRootPane().setDefaultButton(acceptButton);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     }
 }

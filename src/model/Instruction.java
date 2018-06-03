@@ -78,6 +78,7 @@ public class Instruction{
                 result = ">>" + name + " - Pin " + arguments[0];
                 break;
             case 4:
+                result = ">>" + name + " - Pin " + arguments[0] + " - Valor " + arguments[1] + " - Tiempo " + arguments[2] + " milisegundos";
                 break;
             case 5:
                 result = label + ":";

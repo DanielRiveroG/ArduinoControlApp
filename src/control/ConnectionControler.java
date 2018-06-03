@@ -24,6 +24,6 @@ public class ConnectionControler {
 
     public boolean closeConnection() throws IOException {
         connection.close();
-        return this.connection.getConectionState();
+        return !this.connection.getConectionState();
     }
 }

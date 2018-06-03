@@ -129,5 +129,7 @@ public class DigitalIODialog0 extends JDialog{
                 cancelButtonActionPerformed(evt);
             }
         });
+        this.getRootPane().setDefaultButton(acceptButton);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     }
 }

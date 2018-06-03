@@ -11,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.WindowConstants;
 
 public class DigitalIODialog1 extends JDialog{
     private JButton acceptButton;
@@ -97,5 +98,7 @@ public class DigitalIODialog1 extends JDialog{
                 cancelButtonActionPerformed(evt);
             }
         });
+        this.getRootPane().setDefaultButton(acceptButton);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     }
 }

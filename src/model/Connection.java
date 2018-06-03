@@ -64,6 +64,7 @@ public class Connection {
     public void close() throws IOException{
         this.input.close();
         this.output.close();
+        this.serialPort.close();
         this.conectionState = false;
     }
     

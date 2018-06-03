@@ -525,7 +525,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void CloseConnectionItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseConnectionItemActionPerformed
         try {
-            // TODO add your handling code here:
             if(connectControl.closeConnection()){
                 ConectInfoLabel.setText("No hay hardware conectado");
                 ConectInfoLabel.setForeground(Color.red);

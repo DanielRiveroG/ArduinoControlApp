@@ -22,6 +22,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.WindowConstants;
 
 /**
  *
@@ -207,6 +208,8 @@ public class ConditionalJumpDialog extends JDialog{
                 cancelButtonActionPerformed(evt);
             }
         });
+        this.getRootPane().setDefaultButton(acceptButton);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     }
     
 }

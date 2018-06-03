@@ -10,6 +10,7 @@ import view.ConditionalJumpDialog;
 import view.DigitalIODialog0;
 import view.DigitalIODialog1;
 import view.DigitalIODialog2;
+import view.DigitalIODialog3;
 import view.LabelDialog;
 import view.VariableDialog;
 
@@ -44,6 +45,9 @@ public class ProgramController {
                 break;
             case 3:
                 result = new DigitalIODialog2().showDialog();
+                break;
+            case 4:
+                result = new DigitalIODialog3().showDialog();
                 break;
             case 5:
                 label = new LabelDialog().showDialog();
