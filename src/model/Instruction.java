@@ -98,6 +98,8 @@ public class Instruction{
             case 10:
                 result = "Subrutina " + label;
                 break;
+            case 11:
+                result = ">>" + name + " " + label;
         }
         return result;
     }

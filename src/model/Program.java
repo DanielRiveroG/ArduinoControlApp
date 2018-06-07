@@ -54,11 +54,11 @@ public class Program {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             json = reader.readLine();
         }
-         DefaultListModel<Instruction> loaded = new Gson().fromJson(json, listType);
-         for (Object inst : loaded.toArray()) {
-             Instruction aux = (Instruction)inst;
-             addInstruction(aux, -1);
-         }
+        DefaultListModel<Instruction> loaded = new Gson().fromJson(json, listType);
+        for (Object inst : loaded.toArray()) {
+            Instruction aux = (Instruction)inst;
+            addInstruction(aux, -1);
+        }
     }
 
     public void setStopFlag(boolean stopFlag) {
@@ -81,7 +81,7 @@ public class Program {
         switch (pos) {
             case -2:
                 instructions.add(size+1, ins);
-                instructions.add(size+2, new Instruction("RETURN", "$XX", -1));
+                instructions.add(size+2, new Instruction("RETURN", "$XX", 12));
                 size--;
                 break;
             case -1:
@@ -91,6 +91,9 @@ public class Program {
                 instructions.add(1, ins);            
                 break;
             default:
+                if(pos > size){
+                    size--;
+                }
                 instructions.add(pos, ins);
                 break;
         }
@@ -118,14 +121,16 @@ public class Program {
     
     class ExecThread implements Runnable{
         
+        private DefaultListModel<Instruction> currentInstructions;
         
         public ExecThread() {
-            
+            currentInstructions = new DefaultListModel<Instruction>();
+            currentInstructions = instructions;
         }
 
         private int findLabel(String label){
             int res = 0;
-            for (Object inst : instructions.toArray()) {
+            for (Object inst : currentInstructions.toArray()) {
                 Instruction test = (Instruction)inst;
                 if(test.getInstructionType() == 5 && test.getLabel().equals(label)){
                     return res;
@@ -134,7 +139,17 @@ public class Program {
             }
             return -2;
         }
-
+        
+        private int findSubroutine(String label){
+            for (int i = size+1; i < currentInstructions.getSize(); i++) {
+                Instruction test = currentInstructions.get(i);
+                if(test.getInstructionType() == 10 && test.getLabel().equals(label)){
+                    return i;
+                }
+            }
+            return -2;
+        }
+        
         private String sendAndReceive(Instruction inst, boolean receive){
             String response = "";
             connection.sendData(inst.getExecuteCommand());
@@ -193,14 +208,15 @@ public class Program {
         public void run() {
             dreg.clear();
             runningFlag = true;
+            int lastIndex = 0;
             System.out.println("Inicio del programa");
             String response;
-            for (int i = 0; i < instructions.size(); i++) {
+            for (int i = 1; i < currentInstructions.size(); i++) {
                 if(stopFlag){
                     stopFlag = false;
                     break;
                 }
-                Instruction current = instructions.get(i);
+                Instruction current = currentInstructions.get(i);
                 if(current.getName().equals("<FINISH>")){
                     break;
                 }
@@ -217,7 +233,7 @@ public class Program {
                             }
                             break;
                         case 7:
-                            i = findLabel(instructions.get(i).getLabel());
+                            i = findLabel(currentInstructions.get(i).getLabel());
                             if(i == -2){
                                 JOptionPane.showMessageDialog(null, "Error en el salto, ejecución abortada", "Error", JOptionPane.ERROR_MESSAGE);
                                 runningFlag = false;
@@ -227,7 +243,6 @@ public class Program {
                         case 8:
                             int tmp = checkJump(current);
                             if(tmp == -1){
-                                System.out.println("No se cumple salto");
                                 break;
                             }else if(tmp == -2){
                                 JOptionPane.showMessageDialog(null, "Error en el salto, ejecución abortada", "Error", JOptionPane.ERROR_MESSAGE);
@@ -246,6 +261,19 @@ public class Program {
                                 System.out.println(res);
                                 dreg.put(current.getArguments()[0], Double.parseDouble(res.substring(4, res.length())));
                             }
+                            break;
+                        case 11:
+                            lastIndex = i;
+                            i = findSubroutine(currentInstructions.get(i).getLabel());
+                            if(i == -2){
+                                JOptionPane.showMessageDialog(null, "Error en el salto, ejecución abortada", "Error", JOptionPane.ERROR_MESSAGE);
+                                runningFlag = false;
+                                return;
+                            }
+                            break;
+                        case 12:
+                            i = lastIndex;
+                            break;
                     }
 
                 }else{

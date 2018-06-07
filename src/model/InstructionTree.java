@@ -25,9 +25,10 @@ public class InstructionTree {
         model.insertNodeInto(flowControl, root, 1);
         model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Etiqueta","$XX",5)), flowControl, 0);
         model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Espera","$XX",6)), flowControl, 1);
-        model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Salto","$XX",7)), flowControl, 2);
+        model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Salto a etiqueta","$XX",7)), flowControl, 2);
         model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Salto Condicional","$XX",8)), flowControl, 3);
         model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Subrutina","$XX",10)), flowControl, 4);
+        model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Salto a subrutina","$XX",11)), flowControl, 2);
         DefaultMutableTreeNode variables = new DefaultMutableTreeNode("Variables");
         model.insertNodeInto(variables, root, 2);
         model.insertNodeInto(new DefaultMutableTreeNode(new Instruction("Variable","$XX",9)), variables, 0);
