@@ -94,6 +94,10 @@ public class Instruction{
                 break;
             case 9:
                 result = (arguments[1].equals("0"))? ">> Variable booleana " + arguments[0] + " = " + arguments[2]:">> Variable booleana " + arguments[0] + " = Pin digital " + arguments[2];
+                break;
+            case 10:
+                result = "Subrutina " + label;
+                break;
         }
         return result;
     }

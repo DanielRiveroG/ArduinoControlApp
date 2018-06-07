@@ -63,6 +63,10 @@ public class ProgramController {
                 break;
             case 9:
                 result = new VariableDialog().showDialog();
+                break;
+            case 10:
+                label = new LabelDialog().showDialog();
+                pos = -2;
         }
         if(label != null){
             Instruction insLabel = new Instruction(ins.getName(), ins.getCommand(), ins.getInstructionType());

@@ -22,6 +22,7 @@ public class Program {
     private final Connection connection;
     private boolean stopFlag;
     private boolean runningFlag;
+    private int size;
     private Map<String, Double> dreg = new HashMap<String, Double>();
     private Map<String, Integer> ireg = new HashMap<String, Integer>();
     private Map<String, Double> rreg = new HashMap<String, Double>();
@@ -31,6 +32,13 @@ public class Program {
         instructions = new DefaultListModel<>();
         stopFlag = false;
         runningFlag = false;
+        initProgram();
+    }
+    
+    private void initProgram(){
+        instructions.addElement(new Instruction("<START>", "", -1));
+        instructions.addElement(new Instruction("<FINISH>", "", -1));
+        size = 1;
     }
     
     public void save(File file) throws IOException{
@@ -62,21 +70,39 @@ public class Program {
     }
     
     public void clear(){
-        int size = instructions.getSize();
-        for (int i = 0; i < size; i++) {
-            deleteInstruction(0);
+        int realSize = instructions.getSize();
+        for (int i = 0; i < realSize; i++) {
+            instructions.remove(0);
         }
+        initProgram();
     }
     
     public void addInstruction(Instruction ins, int pos){
-        if(pos != -1){
-            instructions.add(pos, ins);
-        }else{
-            instructions.addElement(ins);            
+        switch (pos) {
+            case -2:
+                instructions.add(size+1, ins);
+                instructions.add(size+2, new Instruction("RETURN", "$XX", -1));
+                size--;
+                break;
+            case -1:
+                instructions.add(size, ins);
+                break;
+            case 0:
+                instructions.add(1, ins);            
+                break;
+            default:
+                instructions.add(pos, ins);
+                break;
         }
+        size++;
     }
     public void deleteInstruction(int pos){
+        if(instructions.get(pos).getName().equals("<START>") || instructions.get(pos).getName().equals("<FINISH>")){
+            JOptionPane.showMessageDialog(null, "No se pueden borrar las etiquetas de inicio y fin de programa", "Atención", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         instructions.remove(pos);
+        size--;
     }
     public DefaultListModel getInstructions(){
         return instructions;
@@ -175,7 +201,9 @@ public class Program {
                     break;
                 }
                 Instruction current = instructions.get(i);
-
+                if(current.getName().equals("<FINISH>")){
+                    break;
+                }
                 if(current.getCommand().equals("$XX")){
                     switch(current.getInstructionType()){
                         case 5:
