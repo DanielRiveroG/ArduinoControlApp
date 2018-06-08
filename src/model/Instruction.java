@@ -100,6 +100,10 @@ public class Instruction{
                 break;
             case 11:
                 result = ">>" + name + " " + label;
+                break;
+            case 13:
+                result = ">> Salto a subrutina " + arguments[1] + " si " + arguments[0] + " " + arguments[3] + " " + arguments[2];
+                break;
         }
         return result;
     }

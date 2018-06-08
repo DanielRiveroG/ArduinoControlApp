@@ -71,6 +71,9 @@ public class ProgramController {
             case 11:
                 label = new LabelDialog().showDialog();
                 break;
+            case 13:
+                result = new ConditionalJumpDialog().showDialog();
+                break;
         }
         if(label != null){
             Instruction insLabel = new Instruction(ins.getName(), ins.getCommand(), ins.getInstructionType());

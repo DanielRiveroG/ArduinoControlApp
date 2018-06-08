@@ -483,6 +483,7 @@ public class MainFrame extends javax.swing.JFrame {
         if(selectedTree != null){
             try{
                 programControl.addInstruction(selectedTree, ProgramList.getSelectedIndex());
+                ProgramList.clearSelection();
             }catch(Exception e){
                 programControl.addInstruction(selectedTree, -1);
             }

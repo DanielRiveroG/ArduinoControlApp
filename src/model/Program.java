@@ -23,9 +23,7 @@ public class Program {
     private boolean stopFlag;
     private boolean runningFlag;
     private int size;
-    private Map<String, Double> dreg = new HashMap<String, Double>();
-    private Map<String, Integer> ireg = new HashMap<String, Integer>();
-    private Map<String, Double> rreg = new HashMap<String, Double>();
+    private Map<String, Double> register = new HashMap<String, Double>();
 
     public Program(Connection connection) {
         this.connection = connection;
@@ -49,6 +47,13 @@ public class Program {
     }
     
     public void load(File file) throws FileNotFoundException, IOException{
+        if(runningFlag){
+            JOptionPane.showMessageDialog(null, "No se puede modificar el programa durante la ejecución", "Atención", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        clear();
+        instructions.remove(0);
+        instructions.remove(0);
         java.lang.reflect.Type listType = new TypeToken<DefaultListModel<Instruction>>(){}.getType();
         String json;
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -57,7 +62,7 @@ public class Program {
         DefaultListModel<Instruction> loaded = new Gson().fromJson(json, listType);
         for (Object inst : loaded.toArray()) {
             Instruction aux = (Instruction)inst;
-            addInstruction(aux, -1);
+            instructions.addElement(aux);
         }
     }
 
@@ -70,6 +75,10 @@ public class Program {
     }
     
     public void clear(){
+        if(runningFlag){
+            JOptionPane.showMessageDialog(null, "No se puede modificar el programa durante la ejecución", "Atención", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         int realSize = instructions.getSize();
         for (int i = 0; i < realSize; i++) {
             instructions.remove(0);
@@ -78,6 +87,10 @@ public class Program {
     }
     
     public void addInstruction(Instruction ins, int pos){
+        if(runningFlag){
+            JOptionPane.showMessageDialog(null, "No se puede modificar el programa durante la ejecución", "Atención", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         switch (pos) {
             case -2:
                 instructions.add(size+1, ins);
@@ -100,6 +113,10 @@ public class Program {
         size++;
     }
     public void deleteInstruction(int pos){
+        if(runningFlag){
+            JOptionPane.showMessageDialog(null, "No se puede modificar el programa durante la ejecución", "Atención", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         if(instructions.get(pos).getName().equals("<START>") || instructions.get(pos).getName().equals("<FINISH>")){
             JOptionPane.showMessageDialog(null, "No se pueden borrar las etiquetas de inicio y fin de programa", "Atención", JOptionPane.WARNING_MESSAGE);
             return;
@@ -121,16 +138,12 @@ public class Program {
     
     class ExecThread implements Runnable{
         
-        private DefaultListModel<Instruction> currentInstructions;
-        
         public ExecThread() {
-            currentInstructions = new DefaultListModel<Instruction>();
-            currentInstructions = instructions;
         }
 
         private int findLabel(String label){
             int res = 0;
-            for (Object inst : currentInstructions.toArray()) {
+            for (Object inst : instructions.toArray()) {
                 Instruction test = (Instruction)inst;
                 if(test.getInstructionType() == 5 && test.getLabel().equals(label)){
                     return res;
@@ -141,8 +154,8 @@ public class Program {
         }
         
         private int findSubroutine(String label){
-            for (int i = size+1; i < currentInstructions.getSize(); i++) {
-                Instruction test = currentInstructions.get(i);
+            for (int i = size+1; i < instructions.getSize(); i++) {
+                Instruction test = instructions.get(i);
                 if(test.getInstructionType() == 10 && test.getLabel().equals(label)){
                     return i;
                 }
@@ -176,14 +189,20 @@ public class Program {
             String label = inst.getArguments()[1];
             String comparer = inst.getArguments()[3];
             Double value = Double.parseDouble(inst.getArguments()[2]);
-            if(dreg.get(variable) != null){
-                if(checkCondition(dreg.get(variable),value , comparer)) return findLabel(label);
+            if(register.get(variable) != null){
+                if(checkCondition(register.get(variable),value , comparer)) return findLabel(label);
                 return -1;
-            }else if(ireg.get(variable) != null){
-                if(checkCondition(dreg.get(variable),value , comparer)) return findLabel(label);
-                return -1;
-            }else if(rreg.get(variable) != null){
-                if(checkCondition(dreg.get(variable),value , comparer)) return findLabel(label);
+            }
+            return -2;
+        }
+        
+        private int checkJumpSubroutine(Instruction inst){
+            String variable = inst.getArguments()[0];
+            String label = inst.getArguments()[1];
+            String comparer = inst.getArguments()[3];
+            Double value = Double.parseDouble(inst.getArguments()[2]);
+            if(register.get(variable) != null){
+                if(checkCondition(register.get(variable),value , comparer)) return findSubroutine(label);
                 return -1;
             }
             return -2;
@@ -206,17 +225,18 @@ public class Program {
 
         @Override
         public void run() {
-            dreg.clear();
+            register.clear();
             runningFlag = true;
             int lastIndex = 0;
+            int tmp = 0;
             System.out.println("Inicio del programa");
             String response;
-            for (int i = 1; i < currentInstructions.size(); i++) {
+            for (int i = 1; i < instructions.size(); i++) {
                 if(stopFlag){
                     stopFlag = false;
                     break;
                 }
-                Instruction current = currentInstructions.get(i);
+                Instruction current = instructions.get(i);
                 if(current.getName().equals("<FINISH>")){
                     break;
                 }
@@ -233,7 +253,7 @@ public class Program {
                             }
                             break;
                         case 7:
-                            i = findLabel(currentInstructions.get(i).getLabel());
+                            i = findLabel(instructions.get(i).getLabel());
                             if(i == -2){
                                 JOptionPane.showMessageDialog(null, "Error en el salto, ejecución abortada", "Error", JOptionPane.ERROR_MESSAGE);
                                 runningFlag = false;
@@ -241,7 +261,7 @@ public class Program {
                             }
                             break;
                         case 8:
-                            int tmp = checkJump(current);
+                            tmp = checkJump(current);
                             if(tmp == -1){
                                 break;
                             }else if(tmp == -2){
@@ -254,17 +274,17 @@ public class Program {
                             break;
                         case 9:
                             if(current.getArguments()[1].equals("0")){
-                                dreg.put(current.getArguments()[0], Double.parseDouble(current.getArguments()[2]));
+                                register.put(current.getArguments()[0], Double.parseDouble(current.getArguments()[2]));
                             }else{
                                 String[] arg = {current.getArguments()[2]};
                                 String res = sendAndReceive(new Instruction("Entrada Binaria Bit","$IB",0,arg), true);
                                 System.out.println(res);
-                                dreg.put(current.getArguments()[0], Double.parseDouble(res.substring(4, res.length())));
+                                register.put(current.getArguments()[0], Double.parseDouble(res.substring(4, res.length())));
                             }
                             break;
                         case 11:
                             lastIndex = i;
-                            i = findSubroutine(currentInstructions.get(i).getLabel());
+                            i = findSubroutine(instructions.get(i).getLabel());
                             if(i == -2){
                                 JOptionPane.showMessageDialog(null, "Error en el salto, ejecución abortada", "Error", JOptionPane.ERROR_MESSAGE);
                                 runningFlag = false;
@@ -273,6 +293,18 @@ public class Program {
                             break;
                         case 12:
                             i = lastIndex;
+                            break;
+                        case 13:
+                            tmp = checkJumpSubroutine(current);
+                            if(tmp == -1){
+                                break;
+                            }else if(tmp == -2){
+                                JOptionPane.showMessageDialog(null, "Error en el salto, ejecución abortada", "Error", JOptionPane.ERROR_MESSAGE);
+                                runningFlag = false;
+                                return;
+                            }else{
+                                i = tmp;
+                            }
                             break;
                     }
 
