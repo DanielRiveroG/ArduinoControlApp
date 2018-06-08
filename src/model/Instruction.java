@@ -93,7 +93,16 @@ public class Instruction{
                 result = ">> Salto a " + arguments[1] + " si " + arguments[0] + " " + arguments[3] + " " + arguments[2];
                 break;
             case 9:
-                result = (arguments[1].equals("0"))? ">> Variable booleana " + arguments[0] + " = " + arguments[2]:">> Variable booleana " + arguments[0] + " = Pin digital " + arguments[2];
+                result = ">> Variable " + arguments [0];
+                if(arguments[1].equals("0")){
+                    result = result + " = " + arguments[2];
+                }else if(arguments[1].equals("1")){
+                    result = result + " = Pin digital " + arguments[2]; 
+                }else if(arguments[1].equals("2")){
+                    result = result + " = Pin analógico " + arguments[2];
+                }else if(arguments[1].equals("3")){
+                    result = result + " = byte ";
+                }
                 break;
             case 10:
                 result = "Subrutina " + label;

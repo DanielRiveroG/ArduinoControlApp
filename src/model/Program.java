@@ -47,6 +47,7 @@ public class Program {
     }
     
     public void load(File file) throws FileNotFoundException, IOException{
+        boolean finish = false;
         if(runningFlag){
             JOptionPane.showMessageDialog(null, "No se puede modificar el programa durante la ejecución", "Atención", JOptionPane.WARNING_MESSAGE);
             return;
@@ -54,6 +55,7 @@ public class Program {
         clear();
         instructions.remove(0);
         instructions.remove(0);
+        size--;
         java.lang.reflect.Type listType = new TypeToken<DefaultListModel<Instruction>>(){}.getType();
         String json;
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -63,6 +65,12 @@ public class Program {
         for (Object inst : loaded.toArray()) {
             Instruction aux = (Instruction)inst;
             instructions.addElement(aux);
+            if(aux.getName().equals("<FINISH>")){
+                finish = true;
+            }
+            if(!finish){
+                size++;
+            }
         }
     }
 
@@ -275,9 +283,19 @@ public class Program {
                         case 9:
                             if(current.getArguments()[1].equals("0")){
                                 register.put(current.getArguments()[0], Double.parseDouble(current.getArguments()[2]));
-                            }else{
+                            }else if(current.getArguments()[1].equals("1")){
                                 String[] arg = {current.getArguments()[2]};
                                 String res = sendAndReceive(new Instruction("Entrada Binaria Bit","$IB",0,arg), true);
+                                System.out.println(res);
+                                register.put(current.getArguments()[0], Double.parseDouble(res.substring(4, res.length())));
+                            }else if(current.getArguments()[1].equals("2")){
+                                String[] arg = {current.getArguments()[2]};
+                                String res = sendAndReceive(new Instruction("Entrada Analogica","$AI",0,arg), true);
+                                System.out.println(res);
+                                register.put(current.getArguments()[0], Double.parseDouble(res.substring(4, res.length())));
+                            }else if(current.getArguments()[1].equals("3")){
+                                String[] arg = {current.getArguments()[2]};
+                                String res = sendAndReceive(new Instruction("Entrada Byte","$IL",0,arg), true);
                                 System.out.println(res);
                                 register.put(current.getArguments()[0], Double.parseDouble(res.substring(4, res.length())));
                             }

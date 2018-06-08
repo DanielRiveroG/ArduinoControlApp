@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -23,14 +24,19 @@ public class VariableDialog extends JDialog {
     private JButton acceptButton;
     private JButton cancelButton;
     private JTextField nameField;
+    private JTextField immediateField;
     private JLabel nameLabel;
     private ButtonGroup optionsGroup;
     private JRadioButton immediateRadio;
-    private JRadioButton readRadio;
+    private JRadioButton digitalRadio;
+    private JRadioButton analogRadio;
+    private JRadioButton byteRadio;
     private JLabel immediateLabel;
-    private JLabel pinLabel;
-    private JSpinner immediateSpinner;
-    private JSpinner pinSpinner;
+    private JLabel digitalLabel;
+    private JLabel analogLabel;
+    private JLabel byteLabel;
+    private JSpinner digitalSpinner;
+    private JSpinner analogSpinner;
     private String[] result;
     
     public VariableDialog() {
@@ -49,13 +55,27 @@ public class VariableDialog extends JDialog {
             result = null;
             dispose();
         }
+
         result[0] = nameField.getText();
         if(immediateRadio.isSelected()){
+            try{
+                Double.parseDouble(immediateField.getText());
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Debe escribir un número válido", "Atención", JOptionPane.WARNING_MESSAGE);
+                result = null;
+                dispose();
+            }
             result[1] = "0";
-            result[2] = immediateSpinner.getValue().toString();
-        }else{
+            result[2] = immediateField.getText();
+        }else if(digitalRadio.isSelected()){
             result[1] = "1";
-            result[2] = pinSpinner.getValue().toString();
+            result[2] = digitalSpinner.getValue().toString();
+        }else if(analogRadio.isSelected()){
+            result[1] = "2";
+            result[2] = analogSpinner.getValue().toString();
+        }else{
+            result[1] = "3";
+            result[2] = "";
         }
         dispose();
     }
@@ -71,17 +91,22 @@ public class VariableDialog extends JDialog {
         GridBagConstraints gridBagConstraints;
         nameLabel = new JLabel();
         nameField = new JTextField();
+        immediateField = new JTextField();
         optionsGroup = new ButtonGroup();
         immediateRadio = new JRadioButton();
-        readRadio = new JRadioButton();
+        digitalRadio = new JRadioButton();
+        analogRadio = new JRadioButton();
+        byteRadio = new JRadioButton();
         immediateLabel = new JLabel();
-        pinLabel = new JLabel();
-        immediateSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 1, 1));
-        pinSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 7, 1));
+        digitalLabel = new JLabel();
+        analogLabel = new JLabel();
+        byteLabel = new JLabel();
+        digitalSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 7, 1));
+        analogSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 3, 1));
         acceptButton = new JButton();
         cancelButton = new JButton();
         
-        this.setSize(new Dimension(250, 250));
+        this.setSize(new Dimension(450, 250));
         this.setTitle("Variable");
         this.getContentPane().setLayout(new GridBagLayout());
         this.setLocationRelativeTo(null);
@@ -91,34 +116,50 @@ public class VariableDialog extends JDialog {
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.insets = new Insets(5, 5, 5, 0);
         this.getContentPane().add(nameLabel, gridBagConstraints);
 
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new Insets(5, 5, 5, 0);
         this.getContentPane().add(nameField, gridBagConstraints);
         
         optionsGroup.add(immediateRadio);
         immediateRadio.setSelected(true);
-        immediateRadio.setText("Valor Inmediato");
+        immediateRadio.setText("Valor");
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new Insets(5, 0, 5, 0);
         this.getContentPane().add(immediateRadio, gridBagConstraints);
 
-        optionsGroup.add(readRadio);
-        readRadio.setText("Leer pin");
+        optionsGroup.add(digitalRadio);
+        digitalRadio.setText("Pin digital");
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new Insets(5, 0, 5, 0);
-        this.getContentPane().add(readRadio, gridBagConstraints);
+        this.getContentPane().add(digitalRadio, gridBagConstraints);
+        
+        optionsGroup.add(analogRadio);
+        analogRadio.setText("Pin analógico");
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
+        this.getContentPane().add(analogRadio, gridBagConstraints);
+        
+        optionsGroup.add(byteRadio);
+        byteRadio.setText("Byte");
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
+        this.getContentPane().add(byteRadio, gridBagConstraints);
         
         immediateLabel.setText("Valor");
         gridBagConstraints = new GridBagConstraints();
@@ -127,34 +168,55 @@ public class VariableDialog extends JDialog {
         gridBagConstraints.insets = new Insets(5, 0, 5, 0);
         this.getContentPane().add(immediateLabel, gridBagConstraints);
         
-        pinLabel.setText("Pin");
+        digitalLabel.setText("Pin");
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.insets = new Insets(5, 0, 5, 0);
-        this.getContentPane().add(pinLabel, gridBagConstraints);
+        this.getContentPane().add(digitalLabel, gridBagConstraints);
         
-        JFormattedTextField tf = ((JSpinner.DefaultEditor) immediateSpinner.getEditor()).getTextField();
-        tf.setEditable(false);
-        tf.setBackground(Color.white);
+        analogLabel.setText("Pin");
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
+        this.getContentPane().add(analogLabel, gridBagConstraints);
+        
+        byteLabel.setText("-");
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
+        this.getContentPane().add(byteLabel, gridBagConstraints);
+        
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new Insets(5, 5, 5, 0);
-        this.getContentPane().add(immediateSpinner, gridBagConstraints);
+        this.getContentPane().add(immediateField, gridBagConstraints);
         
-        JFormattedTextField tf1 = ((JSpinner.DefaultEditor) pinSpinner.getEditor()).getTextField();
+        JFormattedTextField tf = ((JSpinner.DefaultEditor) digitalSpinner.getEditor()).getTextField();
         tf.setEditable(false);
         tf.setBackground(Color.white);
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new Insets(5, 5, 5, 0);
-        this.getContentPane().add(pinSpinner, gridBagConstraints);
+        this.getContentPane().add(digitalSpinner, gridBagConstraints);
+        
+        JFormattedTextField tf1 = ((JSpinner.DefaultEditor) analogSpinner.getEditor()).getTextField();
+        tf1.setEditable(false);
+        tf1.setBackground(Color.white);
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new Insets(5, 5, 5, 0);
+        this.getContentPane().add(analogSpinner, gridBagConstraints);
 
         acceptButton.setText("Aceptar");
         gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.insets = new Insets(5, 0, 5, 5);
         this.getContentPane().add(acceptButton, gridBagConstraints);
@@ -167,7 +229,7 @@ public class VariableDialog extends JDialog {
 
         cancelButton.setText("Cancelar");
         gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.insets = new Insets(5, 5, 5, 0);
         this.getContentPane().add(cancelButton, gridBagConstraints);
