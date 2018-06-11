@@ -61,7 +61,7 @@ public class DigitalIODialog0 extends JDialog{
         this.setLocationRelativeTo(null);
         this.setModal(true);
 
-        numberLabel.setText("Seleccione el puerto:");
+        numberLabel.setText("Seleccione el pin:");
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;

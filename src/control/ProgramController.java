@@ -50,29 +50,37 @@ public class ProgramController {
                 result = new DigitalIODialog3().showDialog();
                 break;
             case 5:
-                label = new LabelDialog().showDialog();
+                label = new LabelDialog(0).showDialog();
                 break;
             case 6:
                 result = new DigitalIODialog1(100000).showDialog();
                 break;
             case 7:
-                label = new LabelDialog().showDialog();
+                label = new LabelDialog(0).showDialog();
                 break;
             case 8:
-                result = new ConditionalJumpDialog().showDialog();
+                result = new ConditionalJumpDialog(0).showDialog();
                 break;
             case 9:
                 result = new VariableDialog().showDialog();
                 break;
             case 10:
-                label = new LabelDialog().showDialog();
+                label = new LabelDialog(1).showDialog();
                 pos = -2;
                 break;
             case 11:
-                label = new LabelDialog().showDialog();
+                if(program.getSize() < pos){
+                    JOptionPane.showMessageDialog(null, "No se puede llamar a una subrutina desde otra subrutina", "Atención", JOptionPane.WARNING_MESSAGE);
+                    break;
+                }
+                label = new LabelDialog(1).showDialog();
                 break;
             case 13:
-                result = new ConditionalJumpDialog().showDialog();
+                if(program.getSize() < pos){
+                    JOptionPane.showMessageDialog(null, "No se puede llamar a una subrutina desde otra subrutina", "Atención", JOptionPane.WARNING_MESSAGE);
+                    break;
+                }
+                result = new ConditionalJumpDialog(1).showDialog();
                 break;
         }
         if(label != null){

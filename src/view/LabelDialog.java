@@ -18,8 +18,10 @@ public class LabelDialog extends JDialog{
     private JTextField labelField;
     private JLabel numberLabel;
     private String label;
+    private int type;
     
-    public LabelDialog() {
+    public LabelDialog(int type) {
+        this.type = type;
         initComponents();
     }
     
@@ -49,12 +51,16 @@ public class LabelDialog extends JDialog{
         cancelButton = new JButton();
         
         this.setSize(new Dimension(250, 200));
-        this.setTitle("Etiqueta");
+        if(type == 0){
+            this.setTitle("Etiqueta");
+        }else{
+            this.setTitle("Subrutina");
+        }
         this.getContentPane().setLayout(new GridBagLayout());
         this.setLocationRelativeTo(null);
         this.setModal(true);
 
-        numberLabel.setText("Escriba el nombre de la etiqueta:");
+        numberLabel.setText("Escriba el nombre:");
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;

@@ -32,6 +32,10 @@ public class Program {
         runningFlag = false;
         initProgram();
     }
+
+    public int getSize() {
+        return size;
+    }
     
     private void initProgram(){
         instructions.addElement(new Instruction("<START>", "", -1));
@@ -281,22 +285,17 @@ public class Program {
                             }
                             break;
                         case 9:
+                            String[] arg = {current.getArguments()[2]};
                             if(current.getArguments()[1].equals("0")){
                                 register.put(current.getArguments()[0], Double.parseDouble(current.getArguments()[2]));
                             }else if(current.getArguments()[1].equals("1")){
-                                String[] arg = {current.getArguments()[2]};
                                 String res = sendAndReceive(new Instruction("Entrada Binaria Bit","$IB",0,arg), true);
-                                System.out.println(res);
                                 register.put(current.getArguments()[0], Double.parseDouble(res.substring(4, res.length())));
                             }else if(current.getArguments()[1].equals("2")){
-                                String[] arg = {current.getArguments()[2]};
                                 String res = sendAndReceive(new Instruction("Entrada Analogica","$AI",0,arg), true);
-                                System.out.println(res);
                                 register.put(current.getArguments()[0], Double.parseDouble(res.substring(4, res.length())));
                             }else if(current.getArguments()[1].equals("3")){
-                                String[] arg = {current.getArguments()[2]};
                                 String res = sendAndReceive(new Instruction("Entrada Byte","$IL",0,arg), true);
-                                System.out.println(res);
                                 register.put(current.getArguments()[0], Double.parseDouble(res.substring(4, res.length())));
                             }
                             break;

@@ -40,9 +40,11 @@ public class ConditionalJumpDialog extends JDialog{
     private JLabel pinLabel;
     private JTextField valueField;
     private String[] result;
+    private int type;
     
-    public ConditionalJumpDialog() {
+    public ConditionalJumpDialog(int type) {
         result = new String[4];
+        this.type = type;
         initComponents();
     }
     
@@ -122,7 +124,11 @@ public class ConditionalJumpDialog extends JDialog{
         gridBagConstraints.insets = new Insets(5, 5, 5, 0);
         this.getContentPane().add(nameField, gridBagConstraints);
         
-        labelLabel.setText("Escriba el nombre de la etiqueta:");
+        if(this.type == 0){
+            labelLabel.setText("Escriba el nombre de la etiqueta:");
+        }else{
+            labelLabel.setText("Escriba el nombre de la subrutina:");
+        }
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
