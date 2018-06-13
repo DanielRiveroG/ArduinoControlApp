@@ -293,6 +293,7 @@ public class Program {
                                 register.put(current.getArguments()[0], Double.parseDouble(res.substring(4, res.length())));
                             }else if(current.getArguments()[1].equals("2")){
                                 String res = sendAndReceive(new Instruction("Entrada Analogica","$AI",0,arg), true);
+                                System.out.println(res);
                                 register.put(current.getArguments()[0], Double.parseDouble(res.substring(4, res.length())));
                             }else if(current.getArguments()[1].equals("3")){
                                 String res = sendAndReceive(new Instruction("Entrada Byte","$IL",0,arg), true);

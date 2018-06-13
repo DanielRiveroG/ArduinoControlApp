@@ -38,10 +38,10 @@ public class ProgramController {
                 result = new DigitalIODialog0().showDialog();
                 break;
             case 1:
-                result = new DigitalIODialog1(254).showDialog();
+                result = new DigitalIODialog1(255).showDialog();
                 break;
             case 2:
-                result = new DigitalIODialog1(65534).showDialog();
+                result = new DigitalIODialog1(65535).showDialog();
                 break;
             case 3:
                 result = new DigitalIODialog2().showDialog();
