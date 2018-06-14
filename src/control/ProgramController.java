@@ -6,6 +6,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import model.Instruction;
 import model.Program;
+import view.AnalogIODialog0;
 import view.ConditionalJumpDialog;
 import view.DigitalIODialog0;
 import view.DigitalIODialog1;
@@ -81,6 +82,9 @@ public class ProgramController {
                     break;
                 }
                 result = new ConditionalJumpDialog(1).showDialog();
+                break;
+            case 14:
+                result = new AnalogIODialog0().showDialog();
                 break;
         }
         if(label != null){

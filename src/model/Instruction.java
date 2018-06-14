@@ -111,8 +111,10 @@ public class Instruction{
                 result = ">>" + name + " " + label;
                 break;
             case 13:
-                result = ">> Salto a subrutina " + arguments[1] + " si " + arguments[0] + " " + arguments[3] + " " + arguments[2];
+                result = ">>Salto a subrutina " + arguments[1] + " si " + arguments[0] + " " + arguments[3] + " " + arguments[2];
                 break;
+            case 14:
+                 result = ">>" + name + " - Pin " + arguments[0] + " - Valor " + arguments[1];
         }
         return result;
     }
