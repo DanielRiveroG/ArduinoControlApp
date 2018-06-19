@@ -53,6 +53,9 @@ public class Instruction{
     public String getExecuteCommand(){
         String result = command;
         for (int i = 0; i < arguments.length; i++) {
+            if(arguments[i] == null){
+                break;
+            }
             result += " " + arguments[i];
         }
         result += "\n";
@@ -114,7 +117,20 @@ public class Instruction{
                 result = ">>Salto a subrutina " + arguments[1] + " si " + arguments[0] + " " + arguments[3] + " " + arguments[2];
                 break;
             case 14:
-                 result = ">>" + name + " - Pin " + arguments[0] + " - Valor " + arguments[1];
+                result = ">>" + name + " " + arguments[0] + " = " + arguments[1];
+                break;
+            case 15:
+                result = ">>" + name + " - Pin " + arguments[0] + " - Valor " + arguments[1];
+                break;
+            case 16:
+                result = (arguments[2].equals("0"))? ">>" + name + " " + arguments[0] + " < " + arguments[1] : ">>" + name + " " + arguments[0] + " > " + arguments[1];
+                break;
+            case 17: 
+                result = ">>" + name + " a " + arguments[0] + " kPa";
+                break;
+            case 18:
+                result = ">>" + name;
+                break;
         }
         return result;
     }

@@ -15,9 +15,11 @@ public class DigitalIODialog0 extends JDialog{
     private JRadioButton offRadioButton;
     private JRadioButton onRadioButton;
     private String[] args;
+    private int size;
     
-    public DigitalIODialog0() {
+    public DigitalIODialog0(int size) {
         args = new String[2];
+        this.size = size;
         initComponents();
     }
     
@@ -47,7 +49,7 @@ public class DigitalIODialog0 extends JDialog{
     private void initComponents(){
         GridBagConstraints gridBagConstraints;
         numberLabel = new JLabel();
-        portSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 15, 1));
+        portSpinner = new JSpinner(new SpinnerNumberModel(0, 0, size, 1));
         stateLabel = new JLabel();
         offRadioButton = new JRadioButton();
         onRadioButton = new JRadioButton();

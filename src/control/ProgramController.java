@@ -2,11 +2,15 @@ package control;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import model.Instruction;
 import model.Program;
 import view.AnalogIODialog0;
+import view.AnalogIODialog1;
 import view.ConditionalJumpDialog;
 import view.DigitalIODialog0;
 import view.DigitalIODialog1;
@@ -36,7 +40,7 @@ public class ProgramController {
         String label = null;
         switch(type){
             case 0:
-                result = new DigitalIODialog0().showDialog();
+                result = new DigitalIODialog0(15).showDialog();
                 break;
             case 1:
                 result = new DigitalIODialog1(255).showDialog();
@@ -86,6 +90,18 @@ public class ProgramController {
             case 14:
                 result = new AnalogIODialog0().showDialog();
                 break;
+            case 15:
+                result = new DigitalIODialog0(7).showDialog();
+                break;
+            case 16:
+                result = new AnalogIODialog1().showDialog();
+                break;
+            case 17:
+                result = new DigitalIODialog1(100000).showDialog();
+                break;
+            case 18:
+                result = new String[1];
+                
         }
         if(label != null){
             Instruction insLabel = new Instruction(ins.getName(), ins.getCommand(), ins.getInstructionType());
@@ -131,6 +147,14 @@ public class ProgramController {
             program.setStopFlag(true);
         }else{
             JOptionPane.showMessageDialog(null, "No hay programas ejecutándose", "Atención", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    public String getVariableValue(String name){
+        try{
+            return program.getRegister().get(name).toString();
+        }catch(Exception e){
+            return "";
         }
     }
 }

@@ -14,11 +14,13 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 public class Program {
     private DefaultListModel<Instruction> instructions;
+    private DefaultComboBoxModel<String> variableNames;
     private final Connection connection;
     private boolean stopFlag;
     private boolean runningFlag;
@@ -28,6 +30,7 @@ public class Program {
     public Program(Connection connection) {
         this.connection = connection;
         instructions = new DefaultListModel<>();
+        variableNames = new DefaultComboBoxModel<>();
         stopFlag = false;
         runningFlag = false;
         initProgram();
@@ -85,6 +88,10 @@ public class Program {
     public boolean isRunningFlag() {
         return runningFlag;
     }
+
+    public Map<String, Double> getRegister() {
+        return register;
+    }
     
     public void clear(){
         if(runningFlag){
@@ -139,6 +146,11 @@ public class Program {
     public DefaultListModel getInstructions(){
         return instructions;
     }
+
+    public DefaultComboBoxModel<String> getVariableNames() {
+        return variableNames;
+    }
+    
     public void run(){
         if(!connection.getConectionState()){
             JOptionPane.showMessageDialog(null, "No se puede ejecutar el programa si no hay hardware conectado", "Atención", JOptionPane.WARNING_MESSAGE);
@@ -237,6 +249,8 @@ public class Program {
 
         @Override
         public void run() {
+           
+            variableNames.removeAllElements();
             register.clear();
             runningFlag = true;
             int lastIndex = 0;
@@ -293,11 +307,13 @@ public class Program {
                                 register.put(current.getArguments()[0], Double.parseDouble(res.substring(4, res.length())));
                             }else if(current.getArguments()[1].equals("2")){
                                 String res = sendAndReceive(new Instruction("Entrada Analogica","$AI",0,arg), true);
-                                System.out.println(res);
                                 register.put(current.getArguments()[0], Double.parseDouble(res.substring(4, res.length())));
                             }else if(current.getArguments()[1].equals("3")){
                                 String res = sendAndReceive(new Instruction("Entrada Byte","$IL",0,arg), true);
                                 register.put(current.getArguments()[0], Double.parseDouble(res.substring(4, res.length())));
+                            }
+                            if(variableNames.getIndexOf(current.getArguments()[0]) == -1){
+                                variableNames.addElement(current.getArguments()[0]);
                             }
                             break;
                         case 11:

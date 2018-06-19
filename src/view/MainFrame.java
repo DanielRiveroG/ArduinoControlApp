@@ -53,22 +53,15 @@ public class MainFrame extends javax.swing.JFrame {
         ProgLabel = new javax.swing.JLabel();
         InstLabel = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        DOut3 = new javax.swing.JLabel();
-        DOut5 = new javax.swing.JLabel();
-        DOut2 = new javax.swing.JLabel();
-        DOut1 = new javax.swing.JLabel();
-        DOut4 = new javax.swing.JLabel();
-        DigOutLabel = new javax.swing.JLabel();
-        DIn3 = new javax.swing.JLabel();
-        DIn2 = new javax.swing.JLabel();
-        DIn5 = new javax.swing.JLabel();
-        DIn1 = new javax.swing.JLabel();
-        DigInLabel = new javax.swing.JLabel();
-        DIn4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         ConectInfoLabel = new javax.swing.JLabel();
         ConectLabel = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        NameVariableLabel = new javax.swing.JLabel();
+        VariableComboBox = new javax.swing.JComboBox<>();
+        VariableValueLabel = new javax.swing.JLabel();
+        ValueLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         FileMenu = new javax.swing.JMenu();
         OpenItm = new javax.swing.JMenuItem();
@@ -217,157 +210,6 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Información del hardware", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        jPanel2.setLayout(new java.awt.GridBagLayout());
-
-        DOut3.setBackground(new java.awt.Color(51, 102, 0));
-        DOut3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        DOut3.setText("3");
-        DOut3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        DOut3.setOpaque(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(DOut3, gridBagConstraints);
-
-        DOut5.setBackground(new java.awt.Color(51, 102, 0));
-        DOut5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        DOut5.setText("5");
-        DOut5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        DOut5.setOpaque(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(DOut5, gridBagConstraints);
-
-        DOut2.setBackground(new java.awt.Color(51, 102, 0));
-        DOut2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        DOut2.setText("2");
-        DOut2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        DOut2.setOpaque(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(DOut2, gridBagConstraints);
-
-        DOut1.setBackground(new java.awt.Color(51, 102, 0));
-        DOut1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        DOut1.setText("1");
-        DOut1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        DOut1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        DOut1.setOpaque(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(DOut1, gridBagConstraints);
-
-        DOut4.setBackground(new java.awt.Color(51, 102, 0));
-        DOut4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        DOut4.setText("4");
-        DOut4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        DOut4.setOpaque(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(DOut4, gridBagConstraints);
-
-        DigOutLabel.setText("Salidas digitales:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(DigOutLabel, gridBagConstraints);
-
-        DIn3.setBackground(new java.awt.Color(51, 102, 0));
-        DIn3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        DIn3.setText("3");
-        DIn3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        DIn3.setOpaque(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(DIn3, gridBagConstraints);
-
-        DIn2.setBackground(new java.awt.Color(51, 102, 0));
-        DIn2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        DIn2.setText("2");
-        DIn2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        DIn2.setOpaque(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(DIn2, gridBagConstraints);
-
-        DIn5.setBackground(new java.awt.Color(51, 102, 0));
-        DIn5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        DIn5.setText("5");
-        DIn5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        DIn5.setOpaque(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(DIn5, gridBagConstraints);
-
-        DIn1.setBackground(new java.awt.Color(51, 102, 0));
-        DIn1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        DIn1.setText("1");
-        DIn1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        DIn1.setOpaque(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(DIn1, gridBagConstraints);
-
-        DigInLabel.setText("Entradas digitales:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(DigInLabel, gridBagConstraints);
-
-        DIn4.setBackground(new java.awt.Color(51, 102, 0));
-        DIn4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        DIn4.setText("4");
-        DIn4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        DIn4.setOpaque(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(DIn4, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        jPanel1.add(jPanel2, gridBagConstraints);
-
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         ConectInfoLabel.setForeground(new java.awt.Color(255, 51, 51));
@@ -405,6 +247,63 @@ public class MainFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(jPanel1, gridBagConstraints);
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Estado de la ejecución", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        NameVariableLabel.setText("Variable:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        jPanel2.add(NameVariableLabel, gridBagConstraints);
+
+        VariableComboBox.setModel(program.getVariableNames());
+        VariableComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VariableComboBoxActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
+        jPanel2.add(VariableComboBox, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        jPanel2.add(VariableValueLabel, gridBagConstraints);
+
+        ValueLabel.setText("Valor:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 11, 0, 1);
+        jPanel2.add(ValueLabel, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        jPanel4.add(jPanel2, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        getContentPane().add(jPanel4, gridBagConstraints);
 
         FileMenu.setText("Archivo");
 
@@ -549,6 +448,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void StopButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StopButActionPerformed
         programControl.stopProgram();
     }//GEN-LAST:event_StopButActionPerformed
+
+    private void VariableComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VariableComboBoxActionPerformed
+        ValueLabel.setText(programControl.getVariableValue((String) VariableComboBox.getSelectedItem()));
+    }//GEN-LAST:event_VariableComboBoxActionPerformed
     
     private final Program program;
     private final ConnectionControler connectControl;
@@ -562,35 +465,28 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel ConectInfoLabel;
     private javax.swing.JLabel ConectLabel;
     private javax.swing.JMenu ConectMenu;
-    private javax.swing.JLabel DIn1;
-    private javax.swing.JLabel DIn2;
-    private javax.swing.JLabel DIn3;
-    private javax.swing.JLabel DIn4;
-    private javax.swing.JLabel DIn5;
-    private javax.swing.JLabel DOut1;
-    private javax.swing.JLabel DOut2;
-    private javax.swing.JLabel DOut3;
-    private javax.swing.JLabel DOut4;
-    private javax.swing.JLabel DOut5;
     private javax.swing.JButton DelBut;
-    private javax.swing.JLabel DigInLabel;
-    private javax.swing.JLabel DigOutLabel;
     private javax.swing.JButton EditBut;
     private javax.swing.JMenu FileMenu;
     private javax.swing.JMenu HelpMenu;
     private javax.swing.JLabel InstLabel;
     private javax.swing.JTree InstTree;
+    private javax.swing.JLabel NameVariableLabel;
     private javax.swing.JMenuItem OpenItm;
     private javax.swing.JLabel ProgLabel;
     private javax.swing.JList<Instruction> ProgramList;
     private javax.swing.JMenuItem SaveItm;
     private javax.swing.JButton StartBut;
     private javax.swing.JButton StopBut;
+    private javax.swing.JLabel ValueLabel;
+    private javax.swing.JComboBox<String> VariableComboBox;
+    private javax.swing.JLabel VariableValueLabel;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar.Separator jSeparator1;

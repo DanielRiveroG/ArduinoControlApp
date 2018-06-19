@@ -7,25 +7,30 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.WindowConstants;
 
-public class AnalogIODialog0 extends JDialog{
+public class AnalogIODialog1 extends JDialog{
     private JButton acceptButton;
     private JButton cancelButton;
+    private ButtonGroup optionsGroup;
+    private JRadioButton lessRadio;
+    private JRadioButton greaterRadio;
     private JSpinner portSpinner;  
     private JSpinner valueSpinner;  
     private JLabel numberLabel;
     private JLabel stateLabel;
     private String[] args;
     
-    public AnalogIODialog0() {
-        args = new String[2];
+    public AnalogIODialog1() {
+        args = new String[3];
         initComponents();
     }
     
@@ -38,6 +43,11 @@ public class AnalogIODialog0 extends JDialog{
         this.setVisible(false);
         args[0] = portSpinner.getValue().toString();
         args[1] = valueSpinner.getValue().toString();
+        if(lessRadio.isSelected()){
+            args[2] = "0";
+        }else{
+            args[2] = "1";
+        }
         dispose();
     }
     
@@ -50,14 +60,17 @@ public class AnalogIODialog0 extends JDialog{
     @SuppressWarnings("Convert2Lambda")
     private void initComponents(){
         GridBagConstraints gridBagConstraints;
+        optionsGroup = new ButtonGroup();
+        lessRadio = new JRadioButton();
+        greaterRadio = new JRadioButton();
         numberLabel = new JLabel();
-        portSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 7, 1));
-        valueSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
+        portSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 3, 1));
+        valueSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 1024, 1));
         stateLabel = new JLabel();
         acceptButton = new JButton();
         cancelButton = new JButton();
         
-        this.setSize(new Dimension(250, 200));
+        this.setSize(new Dimension(250, 300));
         this.setTitle("Argumentos");
         this.getContentPane().setLayout(new GridBagLayout());
         this.setLocationRelativeTo(null);
@@ -80,18 +93,35 @@ public class AnalogIODialog0 extends JDialog{
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.insets = new Insets(5, 5, 5, 0);
         this.getContentPane().add(portSpinner, gridBagConstraints);
+        
+        optionsGroup.add(lessRadio);
+        lessRadio.setSelected(true);
+        lessRadio.setText("<");
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
+        this.getContentPane().add(lessRadio, gridBagConstraints);
+
+        optionsGroup.add(greaterRadio);
+        greaterRadio.setText(">");
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
+        this.getContentPane().add(greaterRadio, gridBagConstraints);
 
         stateLabel.setText("Valor de la Salida:");
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.insets = new Insets(5, 0, 5, 0);
         this.getContentPane().add(stateLabel, gridBagConstraints);
 
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.insets = new Insets(5, 5, 5, 0);
         this.getContentPane().add(valueSpinner, gridBagConstraints);
@@ -99,7 +129,7 @@ public class AnalogIODialog0 extends JDialog{
         acceptButton.setText("Aceptar");
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new Insets(5, 0, 5, 5);
         this.getContentPane().add(acceptButton, gridBagConstraints);
         acceptButton.addActionListener(new ActionListener() {
@@ -112,7 +142,7 @@ public class AnalogIODialog0 extends JDialog{
         cancelButton.setText("Cancelar");
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new Insets(5, 5, 5, 0);
         this.getContentPane().add(cancelButton, gridBagConstraints);
         cancelButton.addActionListener(new ActionListener() {
