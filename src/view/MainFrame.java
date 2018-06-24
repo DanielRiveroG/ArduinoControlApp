@@ -69,7 +69,6 @@ public class MainFrame extends javax.swing.JFrame {
         ConectMenu = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         CloseConnectionItem = new javax.swing.JMenuItem();
-        HelpMenu = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Arduino Control App");
@@ -347,9 +346,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(ConectMenu);
 
-        HelpMenu.setText("Ayuda");
-        jMenuBar1.add(HelpMenu);
-
         setJMenuBar(jMenuBar1);
 
         pack();
@@ -468,7 +464,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton DelBut;
     private javax.swing.JButton EditBut;
     private javax.swing.JMenu FileMenu;
-    private javax.swing.JMenu HelpMenu;
     private javax.swing.JLabel InstLabel;
     private javax.swing.JTree InstTree;
     private javax.swing.JLabel NameVariableLabel;
