@@ -193,6 +193,9 @@ public class Program {
             response = connection.receiveData();
             while(response.equals("")){
                 response = connection.receiveData();
+                if(stopFlag){
+                    break;
+                }
             }
             if(!response.equals("!AK")){
                 JOptionPane.showMessageDialog(null, "Ejecución Abortada", "Error", JOptionPane.ERROR_MESSAGE);
@@ -263,6 +266,7 @@ public class Program {
                     break;
                 }
                 Instruction current = instructions.get(i);
+                System.out.println(current.toString());
                 if(current.getName().equals("<FINISH>")){
                     break;
                 }
